@@ -10,180 +10,131 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  /* ── Zemin ── */
-  --bg:       #87CEFD;          /* ana arka plan */
-  --bg-2:     #A8DAFF;          /* biraz daha açık panel alanı */
-  --bg-deep:  #6BB8F0;          /* biraz daha koyu vurgu */
-
-  /* ── Kart / yüzey ── */
-  --card:     rgba(255,255,255,0.55);   /* beyaz yarı şeffaf */
-  --card-2:   rgba(255,255,255,0.35);
-  --card-dark:rgba(90,140,200,0.18);    /* koyu kart varyantı */
-
-  /* ── Tipografi ── */
-  --ink:      #1A3A5C;          /* koyu lacivert — ana metin */
-  --ink-soft: rgba(26,58,92,0.55); /* soluk metin */
-  --ink-xsoft:rgba(26,58,92,0.35);
-
-  /* ── Vurgu renkleri — pastel ── */
-  --accent:   #5B9BD5;          /* orta mavi — primary buton */
-  --accent-2: #C7A8E8;          /* pastel mor — featured */
-  --mint:     #90DEB8;          /* pastel yeşil — "iyi" durumlar */
-  --peach:    #F4A66A;          /* pastel şeftali — yıldızlar */
-  --rose:     #F0A0B0;          /* pastel pembe */
-
-  /* ── Border / glow ── */
-  --border:   rgba(91,155,213,0.3);
-  --border-w: rgba(255,255,255,0.55);
-  --glow:     rgba(91,155,213,0.12);
-
+  --bg:       #D6EEFF;           /* pastel açık mavi zemin — göz yormaz */
+  --brand:    #87CEFD;           /* marka rengi — vurgu */
+  --brand-d:  #5BA8E0;           /* koyu marka — hover, buton */
+  --card:     rgba(255,255,255,0.68);
+  --card-2:   rgba(255,255,255,0.45);
+  --ink:      #1B3D5F;
+  --ink-soft: rgba(27,61,95,0.52);
+  --ink-xs:   rgba(27,61,95,0.32);
+  --accent:   #87CEFD;           /* marka = accent */
+  --accent-d: #5BA8E0;
+  --lavender: #C7A8E8;
+  --mint:     #85D6B0;
+  --peach:    #F4A970;
+  --border:   rgba(135,206,253,0.45);
+  --border-w: rgba(255,255,255,0.7);
   --font:'Nunito',sans-serif;
 }
-
 html{background:var(--bg);color:var(--ink);font-family:var(--font);overflow-x:hidden;scroll-behavior:smooth;}
 
-/* ── Custom scrollbar ── */
 ::-webkit-scrollbar{width:6px;height:6px;}
-::-webkit-scrollbar-track{background:rgba(135,206,253,0.4);}
-::-webkit-scrollbar-thumb{background:rgba(91,155,213,0.4);border-radius:99px;}
-::-webkit-scrollbar-thumb:hover{background:rgba(91,155,213,0.7);}
-*{scrollbar-width:thin;scrollbar-color:rgba(91,155,213,0.4) rgba(135,206,253,0.4);}
+::-webkit-scrollbar-track{background:rgba(214,238,255,0.6);}
+::-webkit-scrollbar-thumb{background:rgba(135,206,253,0.5);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(91,168,224,0.7);}
+*{scrollbar-width:thin;scrollbar-color:rgba(135,206,253,0.5) rgba(214,238,255,0.6);}
 
-/* ── GLOBAL CAT BG — tüm sayfa boyunca ── */
-#global-cat-bg{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  overflow:hidden;
-}
+/* ── GLOBAL CAT BG ── */
+#global-cat-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .cat-sil{
-  position:absolute;
-  font-size:var(--sz,40px);
-  opacity:var(--op,0.08);
-  animation:drift var(--dur,14s) ease-in-out infinite;
-  animation-delay:var(--del,0s);
-  filter:grayscale(1) brightness(0.6) contrast(1.1);
-  user-select:none;
-  line-height:1;
-  transform-origin:center;
+  position:absolute;font-size:var(--sz,40px);opacity:var(--op,0.07);
+  animation:drift var(--dur,14s) ease-in-out infinite;animation-delay:var(--del,0s);
+  filter:grayscale(1) brightness(0.7) contrast(1.0);user-select:none;line-height:1;transform-origin:center;
 }
 @keyframes drift{
-  0%  {transform:translate(0,0)           rotate(var(--r0,-4deg));}
-  33% {transform:translate(var(--mx,6px),var(--my,-14px)) rotate(var(--r1,3deg));}
-  66% {transform:translate(var(--mx2,-4px),var(--my2,8px)) rotate(var(--r2,-2deg));}
-  100%{transform:translate(0,0)           rotate(var(--r0,-4deg));}
+  0%,100%{transform:translate(0,0) rotate(var(--r0,-4deg));}
+  33%{transform:translate(var(--mx,6px),var(--my,-14px)) rotate(var(--r1,3deg));}
+  66%{transform:translate(var(--mx2,-4px),var(--my2,8px)) rotate(var(--r2,-2deg));}
 }
-
-/* tüm içerik bg'nin üstünde */
-nav, .page, #toast, #paw-cursor, .paw-splash{position:relative;z-index:1;}
+nav,.page,#toast,#paw-cursor,.paw-splash{position:relative;z-index:1;}
 
 /* ── CURSOR ── */
 #paw-cursor{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);font-size:22px;opacity:0;transition:opacity 0.2s;line-height:1;}
 body:hover #paw-cursor{opacity:1;}
 .paw-splash{position:fixed;pointer-events:none;z-index:9998;animation:psplash 0.65s ease forwards;}
-@keyframes psplash{
-  0%{opacity:0;transform:scale(0.2) rotate(-20deg);}
-  25%{opacity:1;transform:scale(1.15) rotate(8deg);}
-  70%{opacity:0.7;transform:scale(0.95) rotate(-4deg);}
-  100%{opacity:0;transform:scale(0.8) rotate(12deg) translateY(-16px);}
-}
+@keyframes psplash{0%{opacity:0;transform:scale(0.2) rotate(-20deg);}25%{opacity:1;transform:scale(1.15) rotate(8deg);}70%{opacity:0.7;transform:scale(0.95) rotate(-4deg);}100%{opacity:0;transform:scale(0.8) rotate(12deg) translateY(-16px);}}
 
 /* ── NAV ── */
-nav{
-  position:sticky;top:0;z-index:100;
-  background:rgba(168,218,255,0.8);
-  backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--border-w);
-  padding:0 36px;
-  display:flex;align-items:center;justify-content:space-between;
-  height:66px;
-}
-.logo{font-size:21px;font-weight:800;color:var(--accent);display:flex;align-items:center;gap:7px;cursor:pointer;transition:opacity 0.2s;text-decoration:none;}
+nav{position:sticky;top:0;z-index:100;background:rgba(214,238,255,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-w);padding:0 36px;display:flex;align-items:center;justify-content:space-between;height:66px;}
+.logo{font-size:21px;font-weight:800;color:var(--accent-d);display:flex;align-items:center;gap:7px;cursor:pointer;transition:opacity 0.2s;text-decoration:none;}
 .logo:hover{opacity:0.75;}
 .nav-links{display:flex;gap:4px;}
 .nav-links a{font-size:14px;font-weight:600;color:var(--ink-soft);text-decoration:none;padding:7px 14px;border-radius:30px;transition:all 0.2s;cursor:pointer;}
-.nav-links a:hover{color:var(--ink);background:rgba(255,255,255,0.4);}
-.btn-login{background:rgba(255,255,255,0.6);color:var(--ink);border:1px solid var(--border-w);border-radius:30px;padding:8px 20px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;}
-.btn-login:hover{background:rgba(255,255,255,0.85);}
+.nav-links a:hover{color:var(--ink);background:rgba(255,255,255,0.5);}
+.nav-right{display:flex;gap:8px;}
+.btn-login{background:rgba(255,255,255,0.65);color:var(--ink);border:1px solid var(--border-w);border-radius:30px;padding:8px 18px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-login:hover{background:#fff;}
+.btn-admin{background:var(--brand);color:var(--ink);border:none;border-radius:30px;padding:8px 18px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-admin:hover{background:var(--brand-d);color:#fff;}
 
-/* ── PAGES ── */
-.page{display:none;min-height:calc(100vh - 66px);}
-.page.active{display:block;}
+.page{display:none;min-height:calc(100vh - 66px);}.page.active{display:block;}
 
 /* ── HERO ── */
-.hero{
-  min-height:calc(100vh - 66px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:60px 36px 80px;text-align:center;
-}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.5);border:1px solid var(--border-w);border-radius:30px;padding:6px 16px;font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:30px;}
+.hero{min-height:calc(100vh - 66px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 36px 80px;text-align:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border-w);border-radius:30px;padding:6px 16px;font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:30px;}
 .bdot{width:7px;height:7px;border-radius:50%;background:var(--mint);animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1;box-shadow:0 0 6px var(--mint);}50%{opacity:0.35;box-shadow:none;}}
-
 .hero-title{font-size:60px;font-weight:800;line-height:1.08;letter-spacing:-1.5px;color:var(--ink);max-width:760px;margin-bottom:20px;}
-.hero-title .hl{color:var(--accent);}
+.hero-title .hl{color:var(--brand-d);}
 .hero-sub{font-size:17px;line-height:1.72;color:var(--ink-soft);max-width:450px;margin-bottom:44px;font-weight:500;}
 .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-.btn-main{background:var(--accent);color:#fff;border:none;border-radius:14px;padding:15px 30px;font-family:var(--font);font-size:15px;font-weight:800;cursor:pointer;transition:all 0.25s;}
-.btn-main:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(91,155,213,0.45);}
-.btn-ghost{background:rgba(255,255,255,0.55);color:var(--ink);border:1px solid var(--border-w);border-radius:14px;padding:15px 30px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;}
-.btn-ghost:hover{background:rgba(255,255,255,0.8);}
+.btn-main{background:var(--brand);color:var(--ink);border:none;border-radius:14px;padding:15px 30px;font-family:var(--font);font-size:15px;font-weight:800;cursor:pointer;transition:all 0.25s;}
+.btn-main:hover{background:var(--brand-d);color:#fff;transform:translateY(-3px);box-shadow:0 8px 28px rgba(135,206,253,0.5);}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--border-w);border-radius:14px;padding:15px 30px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:all 0.25s;}
+.btn-ghost:hover{background:#fff;}
 
-.live-bar{margin-top:54px;display:flex;background:rgba(255,255,255,0.5);border:1px solid var(--border-w);border-radius:18px;overflow:hidden;backdrop-filter:blur(8px);}
+.live-bar{margin-top:54px;display:flex;background:var(--card);border:1px solid var(--border-w);border-radius:18px;overflow:hidden;backdrop-filter:blur(8px);}
 .live-active{display:flex;align-items:center;gap:8px;justify-content:center;font-size:13px;font-weight:700;color:var(--ink-soft);padding:18px 22px;}
-.ldot{width:8px;height:8px;border-radius:50%;background:#3CB87A;box-shadow:0 0 8px rgba(60,184,122,0.5);animation:blink 2s infinite;}
+.ldot{width:8px;height:8px;border-radius:50%;background:#2DBF7A;box-shadow:0 0 8px rgba(45,191,122,0.5);animation:blink 2s infinite;}
 .live-item{flex:1;padding:18px 24px;text-align:center;border-left:1px solid var(--border-w);transition:background 0.2s;}
-.live-item:hover{background:rgba(255,255,255,0.35);}
-.live-item .val{font-size:26px;font-weight:800;color:var(--accent);line-height:1;}
+.live-item:hover{background:rgba(255,255,255,0.4);}
+.live-item .val{font-size:26px;font-weight:800;color:var(--brand-d);line-height:1;}
 .live-item .lbl{font-size:12px;color:var(--ink-soft);margin-top:5px;font-weight:600;}
 
 /* ── SECTIONS ── */
 .section{padding:80px 36px;max-width:1080px;margin:0 auto;}
-.s-eyebrow{font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block;}
+.s-eyebrow{font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--accent-d);margin-bottom:14px;display:block;}
 .s-title{font-size:38px;font-weight:800;line-height:1.12;letter-spacing:-0.6px;color:var(--ink);margin-bottom:14px;}
 .s-sub{font-size:16px;font-weight:500;color:var(--ink-soft);line-height:1.75;max-width:490px;margin-bottom:46px;}
 
-/* ── TRUST ── */
+/* trust */
 .trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;}
 .trust-card{background:var(--card);backdrop-filter:blur(8px);border:1px solid var(--border-w);border-radius:18px;padding:26px 22px;transition:all 0.3s;position:relative;overflow:hidden;}
-.trust-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(91,155,213,0.1),transparent 68%);opacity:0;transition:opacity 0.3s;}
-.trust-card:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 8px 24px rgba(91,155,213,0.15);}
-.trust-card:hover::after{opacity:1;}
+.trust-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(135,206,253,0.25);}
 .t-icon{font-size:30px;margin-bottom:14px;display:block;}
 .trust-card h3{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;}
 .trust-card p{font-size:13px;font-weight:500;color:var(--ink-soft);line-height:1.65;}
 
-/* ── ROOMS ── */
+/* rooms */
 .rooms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:18px;}
 .room-card{background:var(--card);backdrop-filter:blur(8px);border:1px solid var(--border-w);border-radius:18px;overflow:hidden;transition:all 0.3s;}
-.room-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(91,155,213,0.2);}
-.room-card.featured{border-color:rgba(199,168,232,0.6);}
-.room-card.featured:hover{border-color:var(--accent-2);}
+.room-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(135,206,253,0.3);}
+.room-card.featured{border-color:rgba(199,168,232,0.55);}
 .room-vis{height:165px;display:flex;align-items:center;justify-content:center;font-size:60px;position:relative;overflow:hidden;}
-.room-vis.std{background:linear-gradient(135deg,#C8E6FF,#A8D4F5);}
-.room-vis.prem{background:linear-gradient(135deg,#E8D8FF,#D0B8F0);}
-.room-vis.multi{background:linear-gradient(135deg,#C8F0E8,#A8DDD0);}
+.room-vis.std{background:linear-gradient(135deg,#C8E6FF,#B0D8F8);}
+.room-vis.prem{background:linear-gradient(135deg,#E4D4F8,#D0B8F0);}
+.room-vis.multi{background:linear-gradient(135deg,#C0EDD8,#A8E0C8);}
 .room-vis .me{animation:breathe 3.5s ease-in-out infinite;display:block;}
 @keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.09);}}
 .rpill{position:absolute;top:12px;right:12px;font-size:11px;font-weight:800;border-radius:20px;padding:4px 12px;}
-.pill-lav{background:var(--accent-2);color:#fff;}
-.pill-cyan{background:var(--accent);color:#fff;}
+.pill-lav{background:var(--lavender);color:#fff;}
+.pill-cyan{background:var(--brand);color:var(--ink);}
 .room-body{padding:22px;}
 .room-body h3{font-size:20px;font-weight:800;color:var(--ink);margin-bottom:8px;}
 .room-body p{font-size:14px;font-weight:500;color:var(--ink-soft);line-height:1.65;margin-bottom:16px;}
 .rtags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
-.rtag{font-size:12px;font-weight:700;color:var(--accent);background:rgba(91,155,213,0.12);border:1px solid var(--border);border-radius:20px;padding:4px 12px;}
+.rtag{font-size:12px;font-weight:700;color:var(--accent-d);background:rgba(135,206,253,0.2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;}
 .rfoot{display:flex;align-items:center;justify-content:space-between;}
 .price{font-size:22px;font-weight:800;color:var(--ink);}
 .price span{font-size:13px;color:var(--ink-soft);font-weight:500;}
-.rcta{background:rgba(255,255,255,0.7);color:var(--accent);border:1px solid var(--border);border-radius:30px;padding:9px 20px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.rcta{background:rgba(255,255,255,0.8);color:var(--accent-d);border:1px solid var(--border);border-radius:30px;padding:9px 20px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;}
 .rcta:hover{background:#fff;}
 
-/* ── REVIEWS ── */
+/* reviews */
 .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px;}
 .rev-card{background:var(--card);backdrop-filter:blur(8px);border:1px solid var(--border-w);border-radius:18px;padding:24px;transition:all 0.25s;}
-.rev-card:hover{box-shadow:0 8px 24px rgba(91,155,213,0.15);transform:translateY(-3px);}
+.rev-card:hover{box-shadow:0 8px 24px rgba(135,206,253,0.2);transform:translateY(-3px);}
 .rev-stars{color:var(--peach);font-size:14px;letter-spacing:3px;margin-bottom:14px;}
 .rev-text{font-size:14px;font-weight:500;color:var(--ink-soft);line-height:1.75;margin-bottom:18px;font-style:italic;}
 .rev-author{display:flex;align-items:center;gap:12px;}
@@ -191,78 +142,59 @@ nav{
 .rev-name{font-size:14px;font-weight:700;color:var(--ink);}
 .rev-cat{font-size:12px;font-weight:500;color:var(--ink-soft);}
 
-/* ── FOOTER ── */
 footer{border-top:1px solid var(--border-w);padding:40px 36px;text-align:center;color:var(--ink-soft);font-size:13px;font-weight:500;}
-.footer-logo{font-size:18px;font-weight:800;color:var(--accent);display:inline-block;margin-bottom:12px;}
+.footer-logo{font-size:18px;font-weight:800;color:var(--accent-d);display:inline-block;margin-bottom:12px;}
 
-/* ══════════════════════════════════
-   PANEL
-══════════════════════════════════ */
+/* ══ SHARED PANEL STYLES ══ */
 .panel-layout{display:flex;min-height:calc(100vh - 66px);}
-
-.sidebar{
-  width:220px;flex-shrink:0;
-  background:rgba(168,218,255,0.75);
-  backdrop-filter:blur(16px);
-  border-right:1px solid var(--border-w);
-  display:flex;flex-direction:column;
-  padding-top:28px;
-}
+.sidebar{width:220px;flex-shrink:0;background:rgba(214,238,255,0.8);backdrop-filter:blur(16px);border-right:1px solid var(--border-w);display:flex;flex-direction:column;padding-top:28px;}
 .sb-user{padding:0 20px 22px;border-bottom:1px solid var(--border-w);margin-bottom:8px;}
-.sb-av{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.7);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px;}
+.sb-av{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.8);border:2px solid var(--brand);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px;}
+.sb-av.admin-av{border-color:var(--lavender);}
 .sb-name{font-size:15px;font-weight:800;color:var(--ink);}
-.sb-cat{font-size:13px;font-weight:700;color:var(--accent);}
-.sb-stay{font-size:11px;font-weight:600;color:var(--ink-soft);margin-top:6px;background:rgba(255,255,255,0.5);border:1px solid var(--border-w);border-radius:20px;padding:3px 10px;display:inline-block;}
+.sb-cat{font-size:13px;font-weight:700;color:var(--accent-d);}
+.sb-cat.admin-tag{color:#9B6FCA;}
+.sb-stay{font-size:11px;font-weight:600;color:var(--ink-soft);margin-top:6px;background:rgba(255,255,255,0.6);border:1px solid var(--border-w);border-radius:20px;padding:3px 10px;display:inline-block;}
 .sb-nav{display:flex;flex-direction:column;}
-.sb-nav a{
-  display:flex;align-items:center;gap:10px;
-  padding:11px 20px;font-size:14px;font-weight:600;color:var(--ink-soft);
-  text-decoration:none;cursor:pointer;transition:all 0.15s;
-  border-left:2.5px solid transparent;white-space:nowrap;
-}
-.sb-nav a:hover{color:var(--ink);background:rgba(255,255,255,0.35);}
-.sb-nav a.active{color:var(--accent);border-left-color:var(--accent);background:rgba(255,255,255,0.4);}
+.sb-nav a{display:flex;align-items:center;gap:10px;padding:11px 20px;font-size:14px;font-weight:600;color:var(--ink-soft);text-decoration:none;cursor:pointer;transition:all 0.15s;border-left:2.5px solid transparent;white-space:nowrap;}
+.sb-nav a:hover{color:var(--ink);background:rgba(255,255,255,0.4);}
+.sb-nav a.active{color:var(--accent-d);border-left-color:var(--brand);background:rgba(255,255,255,0.5);}
+.sb-nav a.admin-active{color:#9B6FCA;border-left-color:var(--lavender);background:rgba(199,168,232,0.15);}
 .sb-nav i{font-size:17px;flex-shrink:0;}
 .sb-divider{display:block;height:1px;background:var(--border-w);border:none;margin:10px 20px;}
 
 .panel-content{flex:1;min-width:0;padding:36px 40px;overflow-y:auto;background:transparent;}
 .pp{display:none;}.pp.active{display:block;}
-
 .p-greeting{font-size:26px;font-weight:800;color:var(--ink);margin-bottom:4px;}
 .p-sub{font-size:14px;font-weight:500;color:var(--ink-soft);margin-bottom:26px;}
 
-/* stat cards */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;}
 .stat-card{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border-w);border-radius:14px;padding:16px;transition:all 0.2s;}
-.stat-card:hover{box-shadow:0 4px 16px rgba(91,155,213,0.15);transform:translateY(-2px);}
+.stat-card:hover{box-shadow:0 4px 16px rgba(135,206,253,0.2);transform:translateY(-2px);}
 .stat-lbl{font-size:11px;font-weight:700;color:var(--ink-soft);margin-bottom:7px;display:flex;align-items:center;gap:5px;}
-.stat-lbl i{font-size:13px;color:var(--accent);}
+.stat-lbl i{font-size:13px;color:var(--accent-d);}
 .stat-val{font-size:19px;font-weight:800;color:var(--ink);}
 .stat-note{font-size:11px;font-weight:500;color:var(--ink-soft);margin-top:3px;}
-.stat-card.good .stat-val{color:#2D9E6B;}
+.stat-card.good .stat-val{color:#1D8F5A;}
+.stat-card.warn .stat-val{color:#C17A2A;}
 
 /* cam */
 .cam-wrap{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border-w);border-radius:16px;overflow:hidden;margin-bottom:22px;}
 .cam-top{padding:13px 18px;border-bottom:none;display:flex;align-items:center;justify-content:space-between;}
 .cam-label{font-size:14px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;}
-.cam-label i{font-size:16px;color:var(--accent);}
-.cam-live{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#2D9E6B;}
-.cam-screen{height:210px;background:#1A3A5C;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:none;outline:none;}
-.cam-emoji{font-size:70px;opacity:0.6;animation:camb 5s ease-in-out infinite;}
-@keyframes camb{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
-.cam-overlay{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.45);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);font-family:monospace;}
-.cam-ts{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.45);border-radius:6px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,0.5);font-family:monospace;}
-.scanline{position:absolute;width:100%;height:1.5px;background:rgba(135,206,253,0.3);animation:scan 5s linear infinite;}
-@keyframes scan{0%{top:0}100%{top:100%}}
+.cam-label i{font-size:16px;color:var(--accent-d);}
+.cam-live{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#1D8F5A;}
+.cam-screen{background:#0D2640;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:none;outline:none;}
+.cam-screen iframe{width:100%;height:100%;border:none;display:block;}
 
 /* timeline */
 .tl-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
-.tl-title i{font-size:16px;color:var(--accent);}
+.tl-title i{font-size:16px;color:var(--accent-d);}
 .timeline{display:flex;flex-direction:column;}
 .tl-row{display:flex;gap:12px;padding-bottom:16px;}
 .tl-row:last-child{padding-bottom:0;}
 .tl-spine{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
-.tl-dot{width:10px;height:10px;border-radius:50%;background:rgba(91,155,213,0.2);border:2px solid var(--accent);margin-top:4px;}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:rgba(135,206,253,0.3);border:2px solid var(--brand);margin-top:4px;}
 .tl-line{width:1px;flex:1;background:var(--border-w);margin-top:4px;}
 .tl-row:last-child .tl-line{display:none;}
 .tl-em{font-size:15px;margin-top:2px;flex-shrink:0;}
@@ -277,57 +209,90 @@ footer{border-top:1px solid var(--border-w);padding:40px 36px;text-align:center;
 .h-lbl{font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
 .h-lbl i{font-size:14px;color:#9B6FCA;}
 .h-val{font-size:14px;font-weight:700;color:var(--ink);}
-.h-good{color:#2D9E6B!important;}
+.h-good{color:#1D8F5A!important;}
+.h-warn{color:#C17A2A!important;}
 .note-box{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border-w);border-radius:14px;padding:18px;}
 .note-hd{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
 .note-hd i{font-size:16px;color:#9B6FCA;}
 .note-txt{font-size:14px;font-weight:500;color:var(--ink-soft);line-height:1.75;}
-.note-sig{font-size:12px;color:var(--ink-xsoft);margin-top:10px;font-weight:600;}
+.note-sig{font-size:12px;color:var(--ink-xs);margin-top:10px;font-weight:600;}
 
 /* messages */
 .msg-wrap{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border-w);border-radius:16px;overflow:hidden;}
 .msg-thread{padding:18px;display:flex;flex-direction:column;gap:12px;max-height:260px;overflow-y:auto;}
 .mb{max-width:78%;}
-.mb.staff{align-self:flex-start;}
-.mb.me{align-self:flex-end;}
+.mb.staff{align-self:flex-start;}.mb.me{align-self:flex-end;}
 .mb-inner{padding:10px 14px;border-radius:12px;font-size:13px;font-weight:500;line-height:1.55;}
-.mb.staff .mb-inner{background:rgba(168,218,255,0.5);color:var(--ink);border-bottom-left-radius:4px;}
-.mb.me .mb-inner{background:rgba(91,155,213,0.2);border:1px solid var(--border);color:var(--ink);border-bottom-right-radius:4px;}
+.mb.staff .mb-inner{background:rgba(135,206,253,0.2);color:var(--ink);border-bottom-left-radius:4px;}
+.mb.me .mb-inner{background:rgba(135,206,253,0.35);border:1px solid var(--border);color:var(--ink);border-bottom-right-radius:4px;}
 .mb-meta{font-size:11px;font-weight:600;color:var(--ink-soft);margin-top:3px;}
 .mb.me .mb-meta{text-align:right;}
 .msg-bar{padding:12px 16px;border-top:1px solid var(--border-w);display:flex;gap:10px;}
-.msg-in{flex:1;background:rgba(255,255,255,0.7);border:1px solid var(--border-w);border-radius:30px;padding:9px 15px;color:var(--ink);font-family:var(--font);font-size:13px;font-weight:500;outline:none;}
-.msg-in:focus{border-color:var(--accent);}
-.msg-send{background:var(--accent);color:#fff;border:none;border-radius:30px;padding:9px 18px;font-family:var(--font);font-size:13px;font-weight:800;cursor:pointer;transition:all 0.2s;}
-.msg-send:hover{transform:scale(1.05);}
+.msg-in{flex:1;background:rgba(255,255,255,0.8);border:1px solid var(--border-w);border-radius:30px;padding:9px 15px;color:var(--ink);font-family:var(--font);font-size:13px;font-weight:500;outline:none;}
+.msg-in:focus{border-color:var(--brand);}
+.msg-send{background:var(--brand);color:var(--ink);border:none;border-radius:30px;padding:9px 18px;font-family:var(--font);font-size:13px;font-weight:800;cursor:pointer;transition:all 0.2s;}
+.msg-send:hover{background:var(--brand-d);color:#fff;}
 
 .back-a{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;margin-bottom:24px;transition:color 0.2s;text-decoration:none;}
 .back-a:hover{color:var(--ink);}
-.cam-info{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--border-w);border-radius:14px;padding:16px;margin-top:14px;font-size:13px;font-weight:500;color:var(--ink-soft);line-height:1.7;}
-.cam-info i{color:var(--accent);font-size:15px;vertical-align:-2px;margin-right:6px;}
+.cam-info{background:var(--card);border:1px solid var(--border-w);border-radius:14px;padding:16px;margin-top:14px;font-size:13px;font-weight:500;color:var(--ink-soft);line-height:1.7;}
+.cam-info i{color:var(--accent-d);font-size:15px;vertical-align:-2px;margin-right:6px;}
+
+/* ── ADMIN TABLE ── */
+.admin-table{width:100%;border-collapse:collapse;margin-top:4px;}
+.admin-table th{font-size:11px;font-weight:700;color:var(--ink-soft);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border-w);letter-spacing:0.5px;text-transform:uppercase;}
+.admin-table td{font-size:13px;font-weight:500;color:var(--ink);padding:12px 12px;border-bottom:1px solid rgba(255,255,255,0.4);vertical-align:middle;}
+.admin-table tr:hover td{background:rgba(255,255,255,0.3);}
+.badge{display:inline-block;font-size:11px;font-weight:700;border-radius:20px;padding:3px 10px;}
+.badge-green{background:rgba(45,191,122,0.15);color:#1D8F5A;border:1px solid rgba(45,191,122,0.3);}
+.badge-blue{background:rgba(135,206,253,0.25);color:var(--accent-d);border:1px solid var(--border);}
+.badge-lav{background:rgba(199,168,232,0.2);color:#9B6FCA;border:1px solid rgba(199,168,232,0.4);}
+.badge-orange{background:rgba(244,169,112,0.2);color:#C17A2A;border:1px solid rgba(244,169,112,0.4);}
+.admin-btn{background:rgba(255,255,255,0.7);color:var(--ink-soft);border:1px solid var(--border-w);border-radius:8px;padding:5px 12px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;}
+.admin-btn:hover{background:#fff;color:var(--ink);}
+.admin-btn.danger{color:#C0392B;border-color:rgba(192,57,43,0.3);}
+.admin-btn.danger:hover{background:rgba(192,57,43,0.08);}
+.section-box{background:var(--card);border:1px solid var(--border-w);border-radius:16px;padding:22px;margin-bottom:20px;}
+.section-box-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.section-box-title span{display:flex;align-items:center;gap:7px;}
+.section-box-title i{font-size:17px;color:var(--accent-d);}
+.admin-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;}
+.admin-stat{background:var(--card);border:1px solid var(--border-w);border-radius:14px;padding:16px;text-align:center;}
+.admin-stat .asv{font-size:28px;font-weight:800;color:var(--accent-d);line-height:1;margin-bottom:4px;}
+.admin-stat .asl{font-size:12px;font-weight:600;color:var(--ink-soft);}
+.admin-stat.lav .asv{color:#9B6FCA;}
+.admin-stat.grn .asv{color:#1D8F5A;}
+.admin-stat.org .asv{color:#C17A2A;}
+.care-input-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.care-btn{background:rgba(255,255,255,0.75);border:1px solid var(--border-w);border-radius:30px;padding:10px 16px;font-family:var(--font);font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+.care-btn:hover{background:#fff;box-shadow:0 2px 8px rgba(135,206,253,0.25);}
+.care-btn.active-care{background:var(--brand);border-color:var(--brand);}
+.cam-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.cam-mini{background:var(--card);border:1px solid var(--border-w);border-radius:12px;overflow:hidden;}
+.cam-mini-top{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.5);}
+.cam-mini-label{font-size:13px;font-weight:700;color:var(--ink);}
+.cam-mini-screen{height:120px;background:#0D2640;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:0.6;position:relative;}
+.cam-mini-live{font-size:10px;font-weight:700;color:#1D8F5A;display:flex;align-items:center;gap:4px;}
 
 /* ── RESERVATION ── */
 .res-wrap{max-width:620px;padding:50px 36px;}
 .f-group{margin-bottom:16px;}
 .f-lbl{font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:7px;display:block;}
-.f-in,.f-sel{width:100%;background:rgba(255,255,255,0.65);backdrop-filter:blur(8px);border:1px solid var(--border-w);border-radius:10px;padding:11px 14px;color:var(--ink);font-family:var(--font);font-size:14px;font-weight:500;outline:none;transition:border-color 0.2s;}
-.f-in:focus,.f-sel:focus{border-color:var(--accent);}
+.f-in,.f-sel{width:100%;background:rgba(255,255,255,0.7);border:1px solid var(--border-w);border-radius:10px;padding:11px 14px;color:var(--ink);font-family:var(--font);font-size:14px;font-weight:500;outline:none;transition:border-color 0.2s;}
+.f-in:focus,.f-sel:focus{border-color:var(--brand);}
 .f-in::placeholder{color:var(--ink-soft);}
-option{background:#C8E6FF;color:var(--ink);}
+option{background:#D6EEFF;color:var(--ink);}
 .f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.f-submit{width:100%;background:var(--accent);color:#fff;border:none;border-radius:14px;padding:14px;font-family:var(--font);font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all 0.25s;}
-.f-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(91,155,213,0.4);}
+.f-submit{width:100%;background:var(--brand);color:var(--ink);border:none;border-radius:14px;padding:14px;font-family:var(--font);font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;transition:all 0.25s;}
+.f-submit:hover{background:var(--brand-d);color:#fff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(135,206,253,0.45);}
 
-/* ── TOAST ── */
-#toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:rgba(255,255,255,0.92);border:1px solid var(--border-w);border-radius:14px;padding:14px 20px;font-size:14px;font-weight:700;color:var(--ink);display:none;align-items:center;gap:8px;animation:tin 0.3s ease;backdrop-filter:blur(12px);}
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:rgba(255,255,255,0.95);border:1px solid var(--border-w);border-radius:14px;padding:14px 20px;font-size:14px;font-weight:700;color:var(--ink);display:none;align-items:center;gap:8px;animation:tin 0.3s ease;backdrop-filter:blur(12px);box-shadow:0 4px 20px rgba(135,206,253,0.3);}
 @keyframes tin{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
 
-<!-- GLOBAL KESİNTİSİZ KAT ARKAPLAN -->
 <div id="global-cat-bg"></div>
-
 <div id="paw-cursor">🐱</div>
 <div id="toast"></div>
 
@@ -340,7 +305,10 @@ option{background:#C8E6FF;color:var(--ink);}
     <a onclick="goSection('reviews')">Yorumlar</a>
     <a onclick="goPage('reservation')">Rezervasyon</a>
   </div>
-  <button class="btn-login" onclick="goPage('panel')">Kullanıcı Girişi</button>
+  <div class="nav-right">
+    <button class="btn-login" onclick="goPage('panel')">Kullanıcı Girişi</button>
+    <button class="btn-admin" onclick="goPage('admin')">🛠 Admin</button>
+  </div>
 </nav>
 
 <!-- ══ LANDING ══ -->
@@ -361,7 +329,6 @@ option{background:#C8E6FF;color:var(--ink);}
     </div>
   </section>
 
-  <!-- TRUST -->
   <div class="section">
     <span class="s-eyebrow">🐾 Neden AnCat?</span>
     <h2 class="s-title">Şeffaflık, bu işin özüdür.</h2>
@@ -376,28 +343,17 @@ option{background:#C8E6FF;color:var(--ink);}
     </div>
   </div>
 
-  <!-- ROOMS -->
   <div class="section" id="rooms">
     <span class="s-eyebrow">🏠 Konaklama Seçenekleri</span>
     <h2 class="s-title">Her kedi için doğru oda.</h2>
     <p class="s-sub">Kedinin karakterine ve ihtiyacına göre üç farklı paket sunuyoruz.</p>
     <div class="rooms-grid">
-      <div class="room-card">
-        <div class="room-vis std"><span class="me">🐱</span></div>
-        <div class="room-body"><h3>Standart Oda</h3><p>Tek kedi için rahat, sessiz ve hijyenik alan. Kamera dahil.</p><div class="rtags"><span class="rtag">📹 Canlı kamera</span><span class="rtag">🍽️ Mama/su takibi</span><span class="rtag">📋 Günlük not</span></div><div class="rfoot"><div class="price">₺350 <span>/ gece</span></div><button class="rcta" onclick="goPage('reservation')">Rezervasyon</button></div></div>
-      </div>
-      <div class="room-card featured">
-        <div class="room-vis prem"><span class="me">🐈</span><span class="rpill pill-lav">✨ En Popüler</span></div>
-        <div class="room-body"><h3>Premium Oda</h3><p>Geniş alan, ekstra oyun zamanı ve günlük fotoğraf güncellemesi.</p><div class="rtags"><span class="rtag">📹 Canlı kamera</span><span class="rtag">📸 Günlük fotoğraf</span><span class="rtag">🎮 Oyun zamanı</span><span class="rtag">⚡ Öncelikli destek</span></div><div class="rfoot"><div class="price">₺550 <span>/ gece</span></div><button class="rcta" onclick="goPage('reservation')">Rezervasyon</button></div></div>
-      </div>
-      <div class="room-card">
-        <div class="room-vis multi"><span class="me">🐈🐈‍⬛</span><span class="rpill pill-cyan">Çoklu</span></div>
-        <div class="room-body"><h3>Çoklu Kedi Odası</h3><p>Aynı aileden birden fazla kedi için geniş ortak oda.</p><div class="rtags"><span class="rtag">👨‍👩‍👧 2+ kedi</span><span class="rtag">🏡 Ortak alan</span><span class="rtag">🥣 Ayrı mama takibi</span></div><div class="rfoot"><div class="price">₺480 <span>/ gece</span></div><button class="rcta" onclick="goPage('reservation')">Rezervasyon</button></div></div>
-      </div>
+      <div class="room-card"><div class="room-vis std"><span class="me">🐱</span></div><div class="room-body"><h3>Standart Oda</h3><p>Tek kedi için rahat, sessiz ve hijyenik alan. Kamera dahil.</p><div class="rtags"><span class="rtag">📹 Canlı kamera</span><span class="rtag">🍽️ Mama/su takibi</span><span class="rtag">📋 Günlük not</span></div><div class="rfoot"><div class="price">₺350 <span>/ gece</span></div><button class="rcta" onclick="goPage('reservation')">Rezervasyon</button></div></div></div>
+      <div class="room-card featured"><div class="room-vis prem"><span class="me">🐈</span><span class="rpill pill-lav">✨ En Popüler</span></div><div class="room-body"><h3>Premium Oda</h3><p>Geniş alan, ekstra oyun zamanı ve günlük fotoğraf güncellemesi.</p><div class="rtags"><span class="rtag">📹 Canlı kamera</span><span class="rtag">📸 Günlük fotoğraf</span><span class="rtag">🎮 Oyun zamanı</span><span class="rtag">⚡ Öncelikli destek</span></div><div class="rfoot"><div class="price">₺550 <span>/ gece</span></div><button class="rcta" onclick="goPage('reservation')">Rezervasyon</button></div></div></div>
+      <div class="room-card"><div class="room-vis multi"><span class="me">🐈🐈‍⬛</span><span class="rpill pill-cyan">Çoklu</span></div><div class="room-body"><h3>Çoklu Kedi Odası</h3><p>Aynı aileden birden fazla kedi için geniş ortak oda.</p><div class="rtags"><span class="rtag">👨‍👩‍👧 2+ kedi</span><span class="rtag">🏡 Ortak alan</span><span class="rtag">🥣 Ayrı mama takibi</span></div><div class="rfoot"><div class="price">₺480 <span>/ gece</span></div><button class="rcta" onclick="goPage('reservation')">Rezervasyon</button></div></div></div>
     </div>
   </div>
 
-  <!-- REVIEWS -->
   <div class="section" id="reviews">
     <span class="s-eyebrow">💬 Yorumlar</span>
     <h2 class="s-title">Sahipleri konuşuyor.</h2>
@@ -412,11 +368,11 @@ option{background:#C8E6FF;color:var(--ink);}
   <footer>
     <div class="footer-logo">🐾 AnCat</div>
     <p>Ankara · info@ancat.com.tr · 0312 XXX XX XX</p>
-    <p style="margin-top:8px;opacity:0.35;font-size:12px">© 2025 AnCat · KVKK Aydınlatma Metni</p>
+    <p style="margin-top:8px;opacity:0.4;font-size:12px">© 2025 AnCat · KVKK Aydınlatma Metni</p>
   </footer>
 </div>
 
-<!-- ══ PANEL ══ -->
+<!-- ══ KULLANICI PANELİ ══ -->
 <div id="page-panel" class="page">
   <div class="panel-layout">
     <div class="sidebar">
@@ -426,7 +382,7 @@ option{background:#C8E6FF;color:var(--ink);}
         <div class="sb-cat">Luna · Premium Oda 3</div>
         <div class="sb-stay">26 Haz – 30 Haz</div>
       </div>
-      <nav class="sb-nav" aria-label="Panel menüsü">
+      <nav class="sb-nav">
         <a class="active" onclick="showPP('dash')" id="pn-dash"><i class="ti ti-layout-dashboard"></i> Özet</a>
         <a onclick="showPP('cam')" id="pn-cam"><i class="ti ti-video"></i> Canlı Kamera</a>
         <a onclick="showPP('care')" id="pn-care"><i class="ti ti-clipboard-list"></i> Bakım Geçmişi</a>
@@ -436,7 +392,6 @@ option{background:#C8E6FF;color:var(--ink);}
         <a onclick="goPage('landing')" style="font-size:13px;opacity:0.7"><i class="ti ti-arrow-left"></i> Siteye dön</a>
       </nav>
     </div>
-
     <div class="panel-content">
 
       <!-- DASH -->
@@ -451,7 +406,9 @@ option{background:#C8E6FF;color:var(--ink);}
         </div>
         <div class="cam-wrap">
           <div class="cam-top"><div class="cam-label"><i class="ti ti-video"></i> Luna — Premium Oda 3</div><div class="cam-live"><div class="ldot"></div> CANLI</div></div>
-          <div class="cam-screen"><div class="cam-emoji">🐈</div><div class="scanline"></div><div class="cam-overlay">CAM-03 · HD 1080p</div><div class="cam-ts" id="cts">–</div></div>
+          <div class="cam-screen" style="height:220px">
+            <iframe src="https://www.youtube.com/embed/vxKAWDBW1k4?autoplay=1&mute=1&loop=1&playlist=vxKAWDBW1k4&controls=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
         </div>
         <div class="tl-title"><i class="ti ti-clock"></i> Bugünkü bakım özeti</div>
         <div class="timeline">
@@ -470,9 +427,11 @@ option{background:#C8E6FF;color:var(--ink);}
         <div class="p-sub">Sadece sizin erişiminize açık</div>
         <div class="cam-wrap">
           <div class="cam-top"><div class="cam-label"><i class="ti ti-video"></i> Luna · Premium Oda 3 · CAM-03</div><div class="cam-live"><div class="ldot"></div> CANLI</div></div>
-          <div class="cam-screen" style="height:280px"><div class="cam-emoji" style="font-size:90px">🐈</div><div class="scanline"></div><div class="cam-overlay">HD 1080p · 25 FPS</div><div class="cam-ts" id="cts2">–</div></div>
+          <div class="cam-screen" style="height:340px">
+            <iframe src="https://www.youtube.com/embed/vxKAWDBW1k4?autoplay=1&mute=1&loop=1&playlist=vxKAWDBW1k4&controls=1&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
         </div>
-        <div class="cam-info"><i class="ti ti-info-circle"></i>Kamera erişiminiz <strong style="color:var(--cream)">30 Haziran 2025</strong> çıkışınızla otomatik kapanır. Gizliliğinizi korumak amacıyla kayıt tutulmamaktadır.</div>
+        <div class="cam-info"><i class="ti ti-info-circle"></i>Kamera erişiminiz <strong style="color:var(--ink)">30 Haziran 2025</strong> çıkışınızla otomatik kapanır. Gizliliğinizi korumak amacıyla kayıt tutulmamaktadır.</div>
       </div>
 
       <!-- CARE -->
@@ -481,8 +440,8 @@ option{background:#C8E6FF;color:var(--ink);}
         <div class="p-greeting">Bakım Geçmişi</div>
         <div class="p-sub">Luna'nın tüm bakım kayıtları</div>
         <div style="display:flex;gap:8px;margin-bottom:20px">
-          <span style="font-size:12px;font-weight:700;background:var(--cyan-soft);border:1px solid var(--border);border-radius:20px;padding:4px 14px;color:var(--cyan)">26 Haz — Bugün</span>
-          <span style="font-size:12px;font-weight:700;background:rgba(20,24,40,0.75);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:4px 14px;color:var(--muted);cursor:pointer">25 Haz</span>
+          <span style="font-size:12px;font-weight:700;background:rgba(135,206,253,0.25);border:1px solid var(--border);border-radius:20px;padding:4px 14px;color:var(--accent-d)">26 Haz — Bugün</span>
+          <span style="font-size:12px;font-weight:700;background:var(--card);border:1px solid var(--border-w);border-radius:20px;padding:4px 14px;color:var(--ink-soft);cursor:pointer">25 Haz</span>
         </div>
         <div class="timeline">
           <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">09:15</div><div class="tl-a">Sabah maması</div><div class="tl-n">Kuru mama, normal porsiyon</div></div></div>
@@ -502,8 +461,8 @@ option{background:#C8E6FF;color:var(--ink);}
           <div class="h-card"><div class="h-lbl"><i class="ti ti-fork"></i> İştah</div><div class="h-val h-good">Çok iyi</div></div>
           <div class="h-card"><div class="h-lbl"><i class="ti ti-mood-smile"></i> Ruh hali</div><div class="h-val h-good">Sakin, huzurlu</div></div>
           <div class="h-card"><div class="h-lbl"><i class="ti ti-trash"></i> Tuvalet</div><div class="h-val h-good">Normal</div></div>
-          <div class="h-card"><div class="h-lbl"><i class="ti ti-pill"></i> İlaç</div><div class="h-val" style="color:var(--muted)">Yok</div></div>
-          <div class="h-card"><div class="h-lbl"><i class="ti ti-alert-triangle"></i> Belirti</div><div class="h-val h-good">Belirti yok</div></div>
+          <div class="h-card"><div class="h-lbl"><i class="ti ti-pill"></i> İlaç</div><div class="h-val" style="color:var(--ink-soft)">Yok</div></div>
+          <div class="h-card"><div class="h-lbl"><i class="ti ti-alert-triangle"></i> Belirti</div><div class="h-val h-good">Yok</div></div>
           <div class="h-card"><div class="h-lbl"><i class="ti ti-calendar"></i> Konaklama</div><div class="h-val">4 gece</div></div>
         </div>
         <div class="note-box">
@@ -524,9 +483,213 @@ option{background:#C8E6FF;color:var(--ink);}
             <div class="mb me"><div class="mb-inner">Teşekkürler! Bugün yaş mama verebilir misiniz, daha çok seviyor.</div><div class="mb-meta">Siz · 11:30</div></div>
             <div class="mb staff"><div class="mb-inner">Tabii ki! Öğlen mamasını yaş mama olarak verdik, çok sevdi 😊</div><div class="mb-meta">Elif H. · 13:15</div></div>
           </div>
-          <div class="msg-bar">
-            <input class="msg-in" id="minput" type="text" placeholder="Mesajınızı yazın...">
-            <button class="msg-send" onclick="sendMsg()">Gönder</button>
+          <div class="msg-bar"><input class="msg-in" id="minput" type="text" placeholder="Mesajınızı yazın..."><button class="msg-send" onclick="sendMsg()">Gönder</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMİN PANELİ ══ -->
+<div id="page-admin" class="page">
+  <div class="panel-layout">
+    <div class="sidebar">
+      <div class="sb-user">
+        <div class="sb-av admin-av">🛠</div>
+        <div class="sb-name">Admin</div>
+        <div class="sb-cat admin-tag">AnCat Yönetim</div>
+        <div class="sb-stay">Tam Yetki</div>
+      </div>
+      <nav class="sb-nav">
+        <a class="active admin-active" onclick="showAP('adash')" id="an-adash"><i class="ti ti-layout-dashboard"></i> Genel Bakış</a>
+        <a onclick="showAP('reservations')" id="an-reservations"><i class="ti ti-calendar"></i> Rezervasyonlar</a>
+        <a onclick="showAP('cats')" id="an-cats"><i class="ti ti-paw"></i> Kediler</a>
+        <a onclick="showAP('rooms')" id="an-rooms"><i class="ti ti-home"></i> Odalar</a>
+        <a onclick="showAP('cameras')" id="an-cameras"><i class="ti ti-video"></i> Kameralar</a>
+        <a onclick="showAP('care')" id="an-care"><i class="ti ti-clipboard-list"></i> Bakım Girişi</a>
+        <a onclick="showAP('messages')" id="an-messages"><i class="ti ti-message-circle"></i> Mesajlar</a>
+        <hr class="sb-divider">
+        <a onclick="goPage('landing')" style="font-size:13px;opacity:0.7"><i class="ti ti-arrow-left"></i> Siteye dön</a>
+      </nav>
+    </div>
+    <div class="panel-content">
+
+      <!-- GENEL BAKIŞ -->
+      <div id="ap-adash" class="pp active">
+        <div class="p-greeting">Hoş geldin 🛠</div>
+        <div class="p-sub">AnCat yönetim paneli — bugünün özeti</div>
+        <div class="admin-stat-grid">
+          <div class="admin-stat"><div class="asv" id="a-cats">7</div><div class="asl">Aktif misafir</div></div>
+          <div class="admin-stat"><div class="asv">4</div><div class="asl">Bugün giriş</div></div>
+          <div class="admin-stat grn"><div class="asv">2</div><div class="asl">Bugün çıkış</div></div>
+          <div class="admin-stat lav"><div class="asv" id="a-logs">34</div><div class="asl">Bakım kaydı</div></div>
+          <div class="admin-stat org"><div class="asv">1</div><div class="asl">Bekleyen talep</div></div>
+          <div class="admin-stat"><div class="asv">3</div><div class="asl">Okunmamış mesaj</div></div>
+        </div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-calendar"></i> Bugünkü Rezervasyonlar</span></div>
+          <table class="admin-table">
+            <thead><tr><th>Sahip</th><th>Kedi</th><th>Oda</th><th>Giriş</th><th>Çıkış</th><th>Durum</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Berkay B.</td><td>Luna 🐱</td><td>Premium 3</td><td>26 Haz</td><td>30 Haz</td><td><span class="badge badge-green">Aktif</span></td><td><button class="admin-btn" onclick="goPage('panel')">Paneli Gör</button></td></tr>
+              <tr><td>Ayşe K.</td><td>Mochi 😺</td><td>Standart 1</td><td>25 Haz</td><td>29 Haz</td><td><span class="badge badge-green">Aktif</span></td><td><button class="admin-btn">Paneli Gör</button></td></tr>
+              <tr><td>Mert Ç.</td><td>Oscar 🐈</td><td>Standart 2</td><td>26 Haz</td><td>28 Haz</td><td><span class="badge badge-green">Aktif</span></td><td><button class="admin-btn">Paneli Gör</button></td></tr>
+              <tr><td>Selin D.</td><td>Nori & Mochi 🐈‍⬛</td><td>Çoklu 1</td><td>24 Haz</td><td>27 Haz</td><td><span class="badge badge-orange">Çıkış bugün</span></td><td><button class="admin-btn">Paneli Gör</button></td></tr>
+              <tr><td>Zeynep A.</td><td>Pamuk 🐱</td><td>Premium 2</td><td>27 Haz</td><td>01 Tem</td><td><span class="badge badge-blue">Bekliyor</span></td><td><button class="admin-btn">Onayla</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-bell"></i> Son Aktiviteler</span></div>
+          <div class="timeline">
+            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">18:00 · Elif H.</div><div class="tl-a">Luna — Akşam maması verildi</div><div class="tl-n">Premium Oda 3</div></div></div>
+            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">💬</div><div class="tl-body"><div class="tl-t">17:45 · Berkay B.</div><div class="tl-a">Yeni mesaj geldi</div><div class="tl-n">"Bugün yaş mama verebilir misiniz?"</div></div></div>
+            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">📋</div><div class="tl-body"><div class="tl-t">16:00 · Sistem</div><div class="tl-a">Yeni rezervasyon talebi</div><div class="tl-n">Zeynep A. — Pamuk, 27 Haz giriş</div></div></div>
+            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div></div><div class="tl-em">🧹</div><div class="tl-body"><div class="tl-t">14:00 · Can Y.</div><div class="tl-a">Tüm odalar temizlendi</div><div class="tl-n">7 oda hijyen kontrolü tamamlandı</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REZERVASYONLAR -->
+      <div id="ap-reservations" class="pp">
+        <div class="p-greeting">Rezervasyonlar</div>
+        <div class="p-sub">Tüm aktif ve bekleyen rezervasyonlar</div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-calendar"></i> Tüm Rezervasyonlar</span><button class="admin-btn">+ Yeni Ekle</button></div>
+          <table class="admin-table">
+            <thead><tr><th>Sahip</th><th>Kedi</th><th>Paket</th><th>Giriş</th><th>Çıkış</th><th>Aşı</th><th>Durum</th><th>İşlem</th></tr></thead>
+            <tbody>
+              <tr><td>Berkay B.</td><td>Luna 🐱</td><td>Premium</td><td>26 Haz</td><td>30 Haz</td><td><span class="badge badge-green">Tam</span></td><td><span class="badge badge-green">Aktif</span></td><td><button class="admin-btn">Düzenle</button></td></tr>
+              <tr><td>Ayşe K.</td><td>Mochi 😺</td><td>Standart</td><td>25 Haz</td><td>29 Haz</td><td><span class="badge badge-green">Tam</span></td><td><span class="badge badge-green">Aktif</span></td><td><button class="admin-btn">Düzenle</button></td></tr>
+              <tr><td>Mert Ç.</td><td>Oscar 🐈</td><td>Standart</td><td>26 Haz</td><td>28 Haz</td><td><span class="badge badge-green">Tam</span></td><td><span class="badge badge-green">Aktif</span></td><td><button class="admin-btn">Düzenle</button></td></tr>
+              <tr><td>Selin D.</td><td>Nori & Mochi 🐈‍⬛</td><td>Çoklu</td><td>24 Haz</td><td>27 Haz</td><td><span class="badge badge-green">Tam</span></td><td><span class="badge badge-orange">Çıkış bugün</span></td><td><button class="admin-btn">Çıkış Yap</button></td></tr>
+              <tr><td>Zeynep A.</td><td>Pamuk 🐱</td><td>Premium</td><td>27 Haz</td><td>01 Tem</td><td><span class="badge badge-lav">Eksik</span></td><td><span class="badge badge-blue">Onay bekliyor</span></td><td><button class="admin-btn">Onayla</button> <button class="admin-btn danger">Reddet</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- KEDİLER -->
+      <div id="ap-cats" class="pp">
+        <div class="p-greeting">Kediler</div>
+        <div class="p-sub">Şu an otelde konaklayan tüm misafirler</div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-paw"></i> Aktif Misafirler (7)</span></div>
+          <table class="admin-table">
+            <thead><tr><th>Kedi</th><th>Sahip</th><th>Oda</th><th>Yaş</th><th>İlaç</th><th>Son bakım</th><th>Durum</th></tr></thead>
+            <tbody>
+              <tr><td>Luna 🐱</td><td>Berkay B.</td><td>Premium 3</td><td>3 y.</td><td>—</td><td>18:00</td><td><span class="badge badge-green">İyi</span></td></tr>
+              <tr><td>Mochi 😺</td><td>Ayşe K.</td><td>Standart 1</td><td>5 y.</td><td>—</td><td>17:45</td><td><span class="badge badge-green">İyi</span></td></tr>
+              <tr><td>Oscar 🐈</td><td>Mert Ç.</td><td>Standart 2</td><td>9 y.</td><td>✅ Günlük</td><td>17:30</td><td><span class="badge badge-green">İyi</span></td></tr>
+              <tr><td>Nori 🐈‍⬛</td><td>Selin D.</td><td>Çoklu 1</td><td>2 y.</td><td>—</td><td>18:00</td><td><span class="badge badge-green">İyi</span></td></tr>
+              <tr><td>Mochi 🐱</td><td>Selin D.</td><td>Çoklu 1</td><td>2 y.</td><td>—</td><td>18:00</td><td><span class="badge badge-orange">Stresli</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ODALAR -->
+      <div id="ap-rooms" class="pp">
+        <div class="p-greeting">Odalar</div>
+        <div class="p-sub">Oda durumları ve doluluk oranı</div>
+        <div class="admin-stat-grid">
+          <div class="admin-stat grn"><div class="asv">5</div><div class="asl">Dolu</div></div>
+          <div class="admin-stat"><div class="asv">3</div><div class="asl">Boş</div></div>
+          <div class="admin-stat lav"><div class="asv">1</div><div class="asl">Temizlikte</div></div>
+          <div class="admin-stat"><div class="asv">%56</div><div class="asl">Doluluk</div></div>
+        </div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-home"></i> Oda Listesi</span></div>
+          <table class="admin-table">
+            <thead><tr><th>Oda</th><th>Tip</th><th>Durum</th><th>Misafir</th><th>Çıkış</th><th>Kamera</th></tr></thead>
+            <tbody>
+              <tr><td>Standart 1</td><td>Standart</td><td><span class="badge badge-green">Dolu</span></td><td>Mochi</td><td>29 Haz</td><td><span class="badge badge-green">CAM-01 ✓</span></td></tr>
+              <tr><td>Standart 2</td><td>Standart</td><td><span class="badge badge-green">Dolu</span></td><td>Oscar</td><td>28 Haz</td><td><span class="badge badge-green">CAM-02 ✓</span></td></tr>
+              <tr><td>Standart 3</td><td>Standart</td><td><span class="badge badge-blue">Boş</span></td><td>—</td><td>—</td><td><span class="badge badge-lav">CAM-07 ✓</span></td></tr>
+              <tr><td>Premium 2</td><td>Premium</td><td><span class="badge badge-orange">Temizlik</span></td><td>—</td><td>—</td><td><span class="badge badge-lav">CAM-05 ✓</span></td></tr>
+              <tr><td>Premium 3</td><td>Premium</td><td><span class="badge badge-green">Dolu</span></td><td>Luna</td><td>30 Haz</td><td><span class="badge badge-green">CAM-03 ✓</span></td></tr>
+              <tr><td>Çoklu 1</td><td>Çoklu</td><td><span class="badge badge-green">Dolu</span></td><td>Nori & Mochi</td><td>27 Haz</td><td><span class="badge badge-green">CAM-06 ✓</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- KAMERALAR -->
+      <div id="ap-cameras" class="pp">
+        <div class="p-greeting">Kameralar</div>
+        <div class="p-sub">Tüm kamera yayınları — canlı izleme</div>
+        <div class="cam-grid">
+          <div class="cam-mini">
+            <div class="cam-mini-top"><div class="cam-mini-label">CAM-03 · Premium 3 · Luna</div><div class="cam-mini-live"><div class="ldot"></div> CANLI</div></div>
+            <div class="cam-screen" style="height:150px"><iframe src="https://www.youtube.com/embed/vxKAWDBW1k4?autoplay=1&mute=1&loop=1&playlist=vxKAWDBW1k4&controls=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+          </div>
+          <div class="cam-mini">
+            <div class="cam-mini-top"><div class="cam-mini-label">CAM-01 · Standart 1 · Mochi</div><div class="cam-mini-live"><div class="ldot"></div> CANLI</div></div>
+            <div class="cam-screen" style="height:150px"><iframe src="https://www.youtube.com/embed/vxKAWDBW1k4?autoplay=1&mute=1&loop=1&playlist=vxKAWDBW1k4&controls=0&start=30" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+          </div>
+          <div class="cam-mini">
+            <div class="cam-mini-top"><div class="cam-mini-label">CAM-02 · Standart 2 · Oscar</div><div class="cam-mini-live"><div class="ldot"></div> CANLI</div></div>
+            <div class="cam-screen" style="height:150px"><iframe src="https://www.youtube.com/embed/vxKAWDBW1k4?autoplay=1&mute=1&loop=1&playlist=vxKAWDBW1k4&controls=0&start=60" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+          </div>
+          <div class="cam-mini">
+            <div class="cam-mini-top"><div class="cam-mini-label">CAM-06 · Çoklu 1 · Nori & Mochi</div><div class="cam-mini-live"><div class="ldot"></div> CANLI</div></div>
+            <div class="cam-screen" style="height:150px"><iframe src="https://www.youtube.com/embed/vxKAWDBW1k4?autoplay=1&mute=1&loop=1&playlist=vxKAWDBW1k4&controls=0&start=90" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAKIM GİRİŞİ -->
+      <div id="ap-care" class="pp">
+        <div class="p-greeting">Bakım Girişi</div>
+        <div class="p-sub">Personel bakım kaydı ekle</div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-paw"></i> Kedi seç</span></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px">
+            <button class="care-btn active-care" onclick="selectCat(this)">🐱 Luna</button>
+            <button class="care-btn" onclick="selectCat(this)">😺 Mochi</button>
+            <button class="care-btn" onclick="selectCat(this)">🐈 Oscar</button>
+            <button class="care-btn" onclick="selectCat(this)">🐈‍⬛ Nori</button>
+          </div>
+        </div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-clipboard-list"></i> Bakım işlemi ekle</span></div>
+          <div class="care-input-row">
+            <button class="care-btn" onclick="logCare(this,'🍽️ Mama verildi')">🍽️ Mama verildi</button>
+            <button class="care-btn" onclick="logCare(this,'💧 Su yenilendi')">💧 Su yenilendi</button>
+            <button class="care-btn" onclick="logCare(this,'🧹 Kum temizlendi')">🧹 Kum temizlendi</button>
+            <button class="care-btn" onclick="logCare(this,'🎮 Oyun zamanı')">🎮 Oyun zamanı</button>
+            <button class="care-btn" onclick="logCare(this,'💊 İlaç verildi')">💊 İlaç verildi</button>
+            <button class="care-btn" onclick="logCare(this,'📸 Fotoğraf yüklendi')">📸 Fotoğraf yüklendi</button>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <input class="f-in" id="care-note" type="text" placeholder="Not ekle... (isteğe bağlı)" style="flex:1">
+            <button class="admin-btn" style="padding:10px 20px;font-size:13px" onclick="saveCare()">Kaydet</button>
+          </div>
+        </div>
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-clock"></i> Bugünkü kayıtlar — Luna</span></div>
+          <div class="timeline" id="care-log">
+            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">09:15 · Elif H.</div><div class="tl-a">Mama verildi</div><div class="tl-n">Kuru mama, normal porsiyon</div></div></div>
+            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">💧</div><div class="tl-body"><div class="tl-t">09:30 · Elif H.</div><div class="tl-a">Su yenilendi</div><div class="tl-n">—</div></div></div>
+            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">18:00 · Can Y.</div><div class="tl-a">Akşam maması verildi</div><div class="tl-n">İştahı çok iyiydi</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESAJLAR -->
+      <div id="ap-messages" class="pp">
+        <div class="p-greeting">Mesajlar</div>
+        <div class="p-sub">Tüm müşteri mesajları</div>
+        <div class="section-box" style="margin-bottom:16px">
+          <div class="section-box-title"><span><i class="ti ti-message-circle"></i> Berkay B. — Luna 🐱</span><span class="badge badge-blue">3 mesaj</span></div>
+          <div class="msg-wrap">
+            <div class="msg-thread" id="athread">
+              <div class="mb staff"><div class="mb-inner">Merhaba Berkay Bey! Luna otele uyum sağladı, şu an dinleniyor 🐾</div><div class="mb-meta">Elif H. · 09:05</div></div>
+              <div class="mb me"><div class="mb-inner">Bugün yaş mama verebilir misiniz?</div><div class="mb-meta">Berkay B. · 11:30</div></div>
+              <div class="mb staff"><div class="mb-inner">Tabii! Öğlen mamasını yaş mama olarak verdik 😊</div><div class="mb-meta">Elif H. · 13:15</div></div>
+            </div>
+            <div class="msg-bar"><input class="msg-in" id="aminput" type="text" placeholder="Müşteriye yanıt yaz..."><button class="msg-send" onclick="sendAdminMsg()">Gönder</button></div>
           </div>
         </div>
       </div>
@@ -535,69 +698,48 @@ option{background:#C8E6FF;color:var(--ink);}
   </div>
 </div>
 
-<!-- ══ RESERVATION ══ -->
+<!-- ══ REZERVASYON ══ -->
 <div id="page-reservation" class="page">
   <div class="res-wrap">
     <a class="back-a" onclick="goPage('landing')"><i class="ti ti-arrow-left"></i> Anasayfaya dön</a>
     <span class="s-eyebrow">🐾 Rezervasyon</span>
     <h1 class="s-title">Kedinizi misafir edelim.</h1>
     <p class="s-sub" style="margin-bottom:36px">Formu doldurun, 24 saat içinde onaylayalım.</p>
-    <div class="f-row">
-      <div class="f-group"><label class="f-lbl">Ad Soyad</label><input class="f-in" type="text" placeholder="Ad Soyad"></div>
-      <div class="f-group"><label class="f-lbl">Telefon</label><input class="f-in" type="tel" placeholder="05XX XXX XX XX"></div>
-    </div>
+    <div class="f-row"><div class="f-group"><label class="f-lbl">Ad Soyad</label><input class="f-in" type="text" placeholder="Ad Soyad"></div><div class="f-group"><label class="f-lbl">Telefon</label><input class="f-in" type="tel" placeholder="05XX XXX XX XX"></div></div>
     <div class="f-group"><label class="f-lbl">E-posta</label><input class="f-in" type="email" placeholder="ornek@mail.com"></div>
-    <div class="f-row">
-      <div class="f-group"><label class="f-lbl">Kedi adı</label><input class="f-in" type="text" placeholder="Luna"></div>
-      <div class="f-group"><label class="f-lbl">Kedi yaşı</label><input class="f-in" type="text" placeholder="3"></div>
-    </div>
-    <div class="f-row">
-      <div class="f-group"><label class="f-lbl">Paket seçimi</label><select class="f-sel"><option>Standart Oda — ₺350/gece</option><option selected>Premium Oda — ₺550/gece</option><option>Çoklu Kedi Odası — ₺480/gece</option></select></div>
-      <div class="f-group"><label class="f-lbl">Aşı durumu</label><select class="f-sel"><option>Tam aşılı</option><option>Eksik aşı</option><option>Bilmiyorum</option></select></div>
-    </div>
-    <div class="f-row">
-      <div class="f-group"><label class="f-lbl">Giriş tarihi</label><input class="f-in" type="date"></div>
-      <div class="f-group"><label class="f-lbl">Çıkış tarihi</label><input class="f-in" type="date"></div>
-    </div>
+    <div class="f-row"><div class="f-group"><label class="f-lbl">Kedi adı</label><input class="f-in" type="text" placeholder="Luna"></div><div class="f-group"><label class="f-lbl">Kedi yaşı</label><input class="f-in" type="text" placeholder="3"></div></div>
+    <div class="f-row"><div class="f-group"><label class="f-lbl">Paket seçimi</label><select class="f-sel"><option>Standart Oda — ₺350/gece</option><option selected>Premium Oda — ₺550/gece</option><option>Çoklu Kedi Odası — ₺480/gece</option></select></div><div class="f-group"><label class="f-lbl">Aşı durumu</label><select class="f-sel"><option>Tam aşılı</option><option>Eksik aşı</option><option>Bilmiyorum</option></select></div></div>
+    <div class="f-row"><div class="f-group"><label class="f-lbl">Giriş tarihi</label><input class="f-in" type="date"></div><div class="f-group"><label class="f-lbl">Çıkış tarihi</label><input class="f-in" type="date"></div></div>
     <div class="f-group"><label class="f-lbl">Özel notlar</label><input class="f-in" type="text" placeholder="İlaç kullanımı, özel mama, davranış bilgisi..."></div>
     <button class="f-submit" onclick="submitRes()">🐾 Rezervasyon Talebini Gönder</button>
   </div>
 </div>
 
 <script>
-// ── Global cat background — fixed, tüm sayfa boyunca ──
+// ── Cat BG ──
 (function(){
   const bg = document.getElementById('global-cat-bg');
   const emojis = ['🐱','🐈','😸','😺','🐈‍⬛','😼','🙀'];
-  // Ekranı yatay 11, dikey 14 hücreye böl → 154 kedi, her yerde
   const cols = 11, rows = 14;
   for(let r = 0; r < rows; r++){
     for(let c = 0; c < cols; c++){
       const el = document.createElement('span');
       el.className = 'cat-sil';
-      const sz  = 30 + Math.floor(Math.random() * 20);
-      const op  = (0.04 + Math.random() * 0.03).toFixed(3);
-      const dur = (10 + Math.random() * 12).toFixed(1);
-      const del = -(Math.random() * 16).toFixed(1);
-      // tamamen rasgele rotasyon — düzenli grid görüntüsünü kır
-      const r0  = (Math.random()*60 - 30).toFixed(0) + 'deg';
-      const r1  = (Math.random()*60 - 30).toFixed(0) + 'deg';
-      const r2  = (Math.random()*60 - 30).toFixed(0) + 'deg';
-      const mx  = (Math.random()*20 - 10).toFixed(0) + 'px';
-      const my  = (Math.random()*20 - 10).toFixed(0) + 'px';
-      const mx2 = (Math.random()*20 - 10).toFixed(0) + 'px';
-      const my2 = (Math.random()*20 - 10).toFixed(0) + 'px';
-      // hücre içinde büyük jitter — ızgara hissi yok
-      const jx  = (Math.random() * 8 - 4).toFixed(1);
-      const jy  = (Math.random() * 6 - 3).toFixed(1);
-      const left = ((c / cols) * 100 + parseFloat(jx)).toFixed(2) + '%';
-      const top  = ((r / rows) * 100 + parseFloat(jy)).toFixed(2) + '%';
-      el.style.cssText =
-        `--sz:${sz}px;--op:${op};--dur:${dur}s;--del:${del}s;`+
-        `--r0:${r0};--r1:${r1};--r2:${r2};`+
-        `--mx:${mx};--my:${my};--mx2:${mx2};--my2:${my2};`+
-        `left:${left};top:${top};`;
-      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      const sz = 30 + Math.floor(Math.random()*20);
+      const op = (0.05 + Math.random()*0.04).toFixed(3);
+      const dur = (10 + Math.random()*12).toFixed(1);
+      const del = -(Math.random()*16).toFixed(1);
+      const r0  = (Math.random()*60-30).toFixed(0)+'deg';
+      const r1  = (Math.random()*60-30).toFixed(0)+'deg';
+      const r2  = (Math.random()*60-30).toFixed(0)+'deg';
+      const mx  = (Math.random()*20-10).toFixed(0)+'px';
+      const my  = (Math.random()*20-10).toFixed(0)+'px';
+      const mx2 = (Math.random()*20-10).toFixed(0)+'px';
+      const my2 = (Math.random()*20-10).toFixed(0)+'px';
+      const jx  = (Math.random()*8-4).toFixed(1);
+      const jy  = (Math.random()*6-3).toFixed(1);
+      el.style.cssText = `--sz:${sz}px;--op:${op};--dur:${dur}s;--del:${del}s;--r0:${r0};--r1:${r1};--r2:${r2};--mx:${mx};--my:${my};--mx2:${mx2};--my2:${my2};left:${((c/cols)*100+parseFloat(jx)).toFixed(2)}%;top:${((r/rows)*100+parseFloat(jy)).toFixed(2)}%;`;
+      el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
       bg.appendChild(el);
     }
   }
@@ -608,94 +750,120 @@ const pawCursor = document.getElementById('paw-cursor');
 const cursorEmojis = ['🐱','🐈','😸','😺','🐾','🐈‍⬛','😼'];
 const splashPool  = ['🐱','🐈','😸','😺','🐈‍⬛','😼','🐾'];
 let cursorIdx = 0;
-document.addEventListener('mousemove', e => {
-  pawCursor.style.left = e.clientX + 'px';
-  pawCursor.style.top  = e.clientY + 'px';
-});
+document.addEventListener('mousemove', e => { pawCursor.style.left=e.clientX+'px'; pawCursor.style.top=e.clientY+'px'; });
 document.addEventListener('click', e => {
-  cursorIdx = (cursorIdx + 1) % cursorEmojis.length;
+  cursorIdx = (cursorIdx+1)%cursorEmojis.length;
   pawCursor.textContent = cursorEmojis[cursorIdx];
-  const count = 2 + Math.floor(Math.random() * 2);
-  for(let i = 0; i < count; i++){
+  const count = 2+Math.floor(Math.random()*2);
+  for(let i=0;i<count;i++){
     const el = document.createElement('div');
-    el.className = 'paw-splash';
-    el.textContent = splashPool[Math.floor(Math.random() * splashPool.length)];
-    const angle = -60 + Math.random() * 120;
-    const dist  = 18 + Math.random() * 32;
-    const rad   = angle * Math.PI / 180;
-    el.style.cssText = `left:${e.clientX+Math.cos(rad)*dist-11}px;top:${e.clientY+Math.sin(rad)*dist-11}px;font-size:${16+Math.floor(Math.random()*12)}px;animation-delay:${i*0.06}s;`;
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 800);
+    el.className='paw-splash';
+    el.textContent = splashPool[Math.floor(Math.random()*splashPool.length)];
+    const angle=-60+Math.random()*120, dist=18+Math.random()*32, rad=angle*Math.PI/180;
+    el.style.cssText=`left:${e.clientX+Math.cos(rad)*dist-11}px;top:${e.clientY+Math.sin(rad)*dist-11}px;font-size:${16+Math.floor(Math.random()*12)}px;animation-delay:${i*0.06}s;`;
+    document.body.appendChild(el); setTimeout(()=>el.remove(),800);
   }
 });
 
-// ── Navigation ──
+// ── Nav ──
 function goPage(p){
-  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-  document.getElementById('page-' + p).classList.add('active');
-  window.scrollTo(0, 0);
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  window.scrollTo(0,0);
 }
-
-// Section scroll — landing aktif olduktan sonra güvenli scroll
 function goSection(id){
-  const alreadyOnLanding = document.getElementById('page-landing').classList.contains('active');
-  if(!alreadyOnLanding){
-    goPage('landing');
-  }
-  // İki rAF: ilki layout'u flush eder, ikincisi scroll'u tetikler
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      const el = document.getElementById(id);
-      if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
+  const onLanding = document.getElementById('page-landing').classList.contains('active');
+  if(!onLanding) goPage('landing');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  }));
 }
 
+// ── User panel ──
 function showPP(p){
-  document.querySelectorAll('.pp').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.sb-nav a').forEach(el => el.classList.remove('active'));
-  document.getElementById('pp-' + p).classList.add('active');
-  const nav = document.getElementById('pn-' + p);
-  if(nav) nav.classList.add('active');
+  document.querySelectorAll('.pp').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#page-panel .sb-nav a').forEach(el=>el.classList.remove('active'));
+  document.getElementById('pp-'+p).classList.add('active');
+  const nav=document.getElementById('pn-'+p); if(nav) nav.classList.add('active');
+}
+
+// ── Admin panel ──
+function showAP(p){
+  document.querySelectorAll('.pp').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('#page-admin .sb-nav a').forEach(el=>{el.classList.remove('active');el.classList.remove('admin-active');});
+  document.getElementById('ap-'+p).classList.add('active');
+  const nav=document.getElementById('an-'+p);
+  if(nav){nav.classList.add('active');nav.classList.add('admin-active');}
+}
+
+let selectedCat = 'Luna';
+function selectCat(btn){
+  document.querySelectorAll('.care-btn').forEach(b=>b.classList.remove('active-care'));
+  btn.classList.add('active-care');
+  selectedCat = btn.textContent.replace(/[🐱😺🐈🐈‍⬛]/gu,'').trim();
+}
+function logCare(btn, label){
+  btn.classList.toggle('active-care');
+}
+function saveCare(){
+  const note = document.getElementById('care-note').value || '—';
+  const active = [...document.querySelectorAll('#ap-care .care-input-row .active-care')];
+  if(!active.length){ toast('Lütfen bir işlem seçin.'); return; }
+  const log = document.getElementById('care-log');
+  const now = new Date();
+  const t = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  active.forEach(btn=>{
+    const row = document.createElement('div'); row.className='tl-row';
+    const em = btn.textContent.split(' ')[0];
+    row.innerHTML=`<div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">${em}</div><div class="tl-body"><div class="tl-t">${t} · Admin</div><div class="tl-a">${btn.textContent}</div><div class="tl-n">${note}</div></div>`;
+    log.appendChild(row);
+    btn.classList.remove('active-care');
+  });
+  document.getElementById('care-note').value='';
+  toast('✅ Bakım kaydı eklendi!');
 }
 
 function sendMsg(){
-  const inp = document.getElementById('minput');
-  const val = inp.value.trim();
-  if(!val) return;
-  const thread = document.getElementById('mthread');
-  const now = new Date();
-  const t = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  const div = document.createElement('div');
-  div.className = 'mb me';
-  div.innerHTML = `<div class="mb-inner">${val}</div><div class="mb-meta">Siz · ${t}</div>`;
-  thread.appendChild(div); thread.scrollTop = thread.scrollHeight; inp.value = '';
-  setTimeout(() => {
-    const r = document.createElement('div');
-    r.className = 'mb staff';
-    r.innerHTML = `<div class="mb-inner">Mesajınızı aldık, en kısa sürede dönüş yapacağız! 🐾</div><div class="mb-meta">AnCat · ${t}</div>`;
-    thread.appendChild(r); thread.scrollTop = thread.scrollHeight;
-  }, 1800);
+  const inp=document.getElementById('minput'), val=inp.value.trim(); if(!val)return;
+  const thread=document.getElementById('mthread');
+  const now=new Date(), t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const div=document.createElement('div'); div.className='mb me';
+  div.innerHTML=`<div class="mb-inner">${val}</div><div class="mb-meta">Siz · ${t}</div>`;
+  thread.appendChild(div); thread.scrollTop=thread.scrollHeight; inp.value='';
+  setTimeout(()=>{
+    const r=document.createElement('div'); r.className='mb staff';
+    r.innerHTML=`<div class="mb-inner">Mesajınızı aldık, en kısa sürede dönüş yapacağız! 🐾</div><div class="mb-meta">AnCat · ${t}</div>`;
+    thread.appendChild(r); thread.scrollTop=thread.scrollHeight;
+  },1800);
+}
+function sendAdminMsg(){
+  const inp=document.getElementById('aminput'), val=inp.value.trim(); if(!val)return;
+  const thread=document.getElementById('athread');
+  const now=new Date(), t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const div=document.createElement('div'); div.className='mb staff';
+  div.innerHTML=`<div class="mb-inner">${val}</div><div class="mb-meta">Admin · ${t}</div>`;
+  thread.appendChild(div); thread.scrollTop=thread.scrollHeight; inp.value='';
+  toast('✉️ Mesaj gönderildi.');
 }
 
 function submitRes(){
-  const t = document.getElementById('toast');
-  t.innerHTML = '🐾 Rezervasyon talebiniz alındı! 24 saat içinde dönüş yapacağız.';
-  t.style.display = 'flex';
-  setTimeout(() => { t.style.display = 'none'; }, 3500);
+  toast('🐾 Rezervasyon talebiniz alındı! 24 saat içinde dönüş yapacağız.');
 }
 
-function tick(){
-  const now = new Date();
-  const s = now.toLocaleDateString('tr-TR')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
-  ['cts','cts2'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = s; });
+function toast(msg){
+  const t=document.getElementById('toast'); t.innerHTML=msg; t.style.display='flex';
+  setTimeout(()=>{t.style.display='none';},3500);
 }
-tick(); setInterval(tick, 1000);
 
-let logs = 34;
-setInterval(() => {
-  if(Math.random() > 0.78){ logs++; const el = document.getElementById('ll'); if(el){ el.textContent = logs; el.style.transform='scale(1.35)'; setTimeout(()=>el.style.transform='',280); } }
-}, 4000);
+// ── Live counter ──
+let logs=34;
+setInterval(()=>{
+  if(Math.random()>0.78){
+    logs++;
+    const el=document.getElementById('ll'); if(el){el.textContent=logs;el.style.transform='scale(1.35)';setTimeout(()=>el.style.transform='',280);}
+    const al=document.getElementById('a-logs'); if(al) al.textContent=logs;
+  }
+},4000);
 </script>
 </body>
 </html>
