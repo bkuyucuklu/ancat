@@ -194,7 +194,7 @@ footer{border-top:1px solid rgba(255,255,255,0.06);padding:40px 36px;text-align:
 .sb-nav a:hover{color:var(--cream);background:rgba(59,225,255,0.06);}
 .sb-nav a.active{color:var(--cyan);border-left-color:var(--cyan);background:rgba(59,225,255,0.08);}
 .sb-nav i{font-size:17px;flex-shrink:0;}
-.sb-divider{border:none;border-top:1px solid rgba(255,255,255,0.06);margin:10px 20px;}
+.sb-divider{display:block;height:1px;background:rgba(255,255,255,0.06);border:none;margin:10px 20px;}
 
 /* panel content — şeffaf, bg görünsün */
 .panel-content{
@@ -231,7 +231,7 @@ footer{border-top:1px solid rgba(255,255,255,0.06);padding:40px 36px;text-align:
 .cam-label{font-size:14px;font-weight:700;color:var(--cream);display:flex;align-items:center;gap:8px;}
 .cam-label i{font-size:16px;color:var(--cyan);}
 .cam-live{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#4EFF91;}
-.cam-screen{height:210px;background:#03050F;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.cam-screen{height:210px;background:#03050F;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:none;outline:none;}
 .cam-emoji{font-size:70px;opacity:0.55;animation:camb 5s ease-in-out infinite;}
 @keyframes camb{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 .cam-overlay{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.5);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);font-family:monospace;}
@@ -624,14 +624,19 @@ function goPage(p){
   window.scrollTo(0, 0);
 }
 
-// Yorumlar dahil tüm section linkleri çalışıyor
+// Section scroll — landing aktif olduktan sonra güvenli scroll
 function goSection(id){
-  goPage('landing');
-  // landing zaten aktifse direkt scroll, değilse kısa gecikme
-  setTimeout(() => {
-    const el = document.getElementById(id);
-    if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 80);
+  const alreadyOnLanding = document.getElementById('page-landing').classList.contains('active');
+  if(!alreadyOnLanding){
+    goPage('landing');
+  }
+  // İki rAF: ilki layout'u flush eder, ikincisi scroll'u tetikler
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 }
 
 function showPP(p){
