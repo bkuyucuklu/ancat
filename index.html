@@ -288,6 +288,37 @@ option{background:#D6EEFF;color:var(--ink);}
 
 #toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:rgba(255,255,255,0.95);border:1px solid var(--border-w);border-radius:14px;padding:14px 20px;font-size:14px;font-weight:700;color:var(--ink);display:none;align-items:center;gap:8px;animation:tin 0.3s ease;backdrop-filter:blur(12px);box-shadow:0 4px 20px rgba(135,206,253,0.3);}
 @keyframes tin{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+/* ── KAYIT FORMU ── */
+.kf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.kf-group{display:flex;flex-direction:column;}
+.kf-group.kf-full{grid-column:1/-1;}
+.kf-lbl{font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;letter-spacing:0.2px;}
+.kf-req{color:#D45A5A;}
+.kf-in{background:rgba(255,255,255,0.75);border:1px solid var(--border-w);border-radius:9px;padding:9px 12px;color:var(--ink);font-family:var(--font);font-size:13px;font-weight:500;outline:none;transition:border-color 0.2s;width:100%;}
+.kf-in:focus{border-color:var(--brand);}
+.kf-in::placeholder{color:var(--ink-xs);}
+.kf-in-sm{background:rgba(255,255,255,0.7);border:1px solid var(--border-w);border-radius:7px;padding:5px 8px;color:var(--ink);font-family:var(--font);font-size:12px;outline:none;width:130px;margin-left:auto;}
+.kf-sel{background:rgba(255,255,255,0.75);border:1px solid var(--border-w);border-radius:9px;padding:9px 12px;color:var(--ink);font-family:var(--font);font-size:13px;font-weight:500;outline:none;width:100%;}
+.kf-sel:focus{border-color:var(--brand);}
+.kf-ta{background:rgba(255,255,255,0.75);border:1px solid var(--border-w);border-radius:9px;padding:9px 12px;color:var(--ink);font-family:var(--font);font-size:13px;font-weight:500;outline:none;width:100%;resize:vertical;line-height:1.6;}
+.kf-ta:focus{border-color:var(--brand);}
+.kf-sub-title{font-size:13px;font-weight:700;color:var(--ink);margin:14px 0 10px;display:flex;align-items:center;gap:7px;}
+.kf-sub-title i{font-size:15px;color:var(--accent-d);}
+.kf-checkbox-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.kf-check{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.55);border:1px solid var(--border-w);border-radius:9px;padding:9px 12px;cursor:pointer;transition:background 0.15s;flex-wrap:wrap;}
+.kf-check:hover{background:rgba(255,255,255,0.8);}
+.kf-check input[type=checkbox]{accent-color:var(--brand);width:16px;height:16px;flex-shrink:0;}
+.kf-check span{font-size:13px;font-weight:600;color:var(--ink);flex:1;}
+.kf-consent-list{display:flex;flex-direction:column;gap:8px;}
+.kf-consent{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.55);border:1px solid var(--border-w);border-radius:9px;padding:12px;cursor:pointer;transition:background 0.15s;}
+.kf-consent:hover{background:rgba(255,255,255,0.8);}
+.kf-consent input[type=checkbox]{accent-color:var(--brand);width:16px;height:16px;flex-shrink:0;margin-top:2px;}
+.kf-consent span{font-size:13px;font-weight:500;color:var(--ink-soft);line-height:1.6;}
+.kf-sign-box{background:rgba(255,255,255,0.75);border:2px dashed var(--border);border-radius:9px;padding:22px 12px;color:var(--ink-soft);font-size:13px;font-weight:600;text-align:center;cursor:pointer;transition:all 0.2s;min-height:60px;display:flex;align-items:center;justify-content:center;}
+.kf-sign-box.signed{background:rgba(135,206,253,0.15);border-color:var(--brand);color:var(--accent-d);}
+.kf-sign-box.signed::after{content:'✅ İmzalandı';font-size:14px;}
+.drug-row{border-top:1px solid var(--border-w);padding-top:14px;margin-top:6px;}
+.drug-row:first-child{border-top:none;padding-top:0;}
 </style>
 </head>
 <body>
@@ -505,6 +536,7 @@ option{background:#D6EEFF;color:var(--ink);}
         <a class="active admin-active" onclick="showAP('adash')" id="an-adash"><i class="ti ti-layout-dashboard"></i> Genel Bakış</a>
         <a onclick="showAP('reservations')" id="an-reservations"><i class="ti ti-calendar"></i> Rezervasyonlar</a>
         <a onclick="showAP('cats')" id="an-cats"><i class="ti ti-paw"></i> Kediler</a>
+        <a onclick="showAP('kayit')" id="an-kayit"><i class="ti ti-file-plus"></i> Kayıt Formu</a>
         <a onclick="showAP('rooms')" id="an-rooms"><i class="ti ti-home"></i> Odalar</a>
         <a onclick="showAP('cameras')" id="an-cameras"><i class="ti ti-video"></i> Kameralar</a>
         <a onclick="showAP('care')" id="an-care"><i class="ti ti-clipboard-list"></i> Bakım Girişi</a>
@@ -586,6 +618,196 @@ option{background:#D6EEFF;color:var(--ink);}
               <tr><td>Mochi 🐱</td><td>Selin D.</td><td>Çoklu 1</td><td>2 y.</td><td>—</td><td>18:00</td><td><span class="badge badge-orange">Stresli</span></td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- KAYIT FORMU -->
+      <div id="ap-kayit" class="pp">
+        <div class="p-greeting">Evcil Hayvan Kayıt Formu</div>
+        <div class="p-sub">Tarım ve Orman Bakanlığı mevzuatına uygun — 5199 sayılı Kanun kapsamında</div>
+
+        <!-- BÖLÜM 1: Hayvan Sahibi -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-user"></i> 1. Hayvan Sahibi Bilgileri</span></div>
+          <div class="kf-grid">
+            <div class="kf-group"><label class="kf-lbl">Ad Soyad <span class="kf-req">*</span></label><input class="kf-in" type="text" placeholder="Tam adı soyadı"></div>
+            <div class="kf-group"><label class="kf-lbl">T.C. Kimlik No <span class="kf-req">*</span></label><input class="kf-in" type="text" placeholder="11 haneli T.C. No" maxlength="11"></div>
+            <div class="kf-group"><label class="kf-lbl">Telefon <span class="kf-req">*</span></label><input class="kf-in" type="tel" placeholder="05XX XXX XX XX"></div>
+            <div class="kf-group"><label class="kf-lbl">E-posta</label><input class="kf-in" type="email" placeholder="ornek@mail.com"></div>
+            <div class="kf-group kf-full"><label class="kf-lbl">Adres <span class="kf-req">*</span></label><input class="kf-in" type="text" placeholder="İl, İlçe, Mahalle, Cadde/Sokak, Bina No, Daire"></div>
+            <div class="kf-group"><label class="kf-lbl">Acil İletişim (Ad Soyad)</label><input class="kf-in" type="text" placeholder="Acil durumda aranacak kişi"></div>
+            <div class="kf-group"><label class="kf-lbl">Acil İletişim (Telefon)</label><input class="kf-in" type="tel" placeholder="05XX XXX XX XX"></div>
+          </div>
+        </div>
+
+        <!-- BÖLÜM 2: Hayvan Bilgileri -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-paw"></i> 2. Evcil Hayvan Bilgileri</span></div>
+          <div class="kf-grid">
+            <div class="kf-group"><label class="kf-lbl">Hayvanın Adı <span class="kf-req">*</span></label><input class="kf-in" type="text" placeholder="Luna"></div>
+            <div class="kf-group"><label class="kf-lbl">Tür <span class="kf-req">*</span></label>
+              <select class="kf-sel"><option value="">Seçiniz</option><option selected>Kedi</option><option>Köpek</option><option>Diğer</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Irk / Cins</label><input class="kf-in" type="text" placeholder="British Shorthair, Tekir, vb."></div>
+            <div class="kf-group"><label class="kf-lbl">Cinsiyet <span class="kf-req">*</span></label>
+              <select class="kf-sel"><option value="">Seçiniz</option><option>Dişi</option><option>Erkek</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Doğum Tarihi / Yaş</label><input class="kf-in" type="text" placeholder="gg.aa.yyyy veya yaklaşık yaş"></div>
+            <div class="kf-group"><label class="kf-lbl">Kilo (kg)</label><input class="kf-in" type="number" placeholder="4.2" step="0.1" min="0"></div>
+            <div class="kf-group"><label class="kf-lbl">Renk / İşaretler</label><input class="kf-in" type="text" placeholder="Gri tekir, beyaz göğüs"></div>
+            <div class="kf-group"><label class="kf-lbl">Kısırlaştırma Durumu <span class="kf-req">*</span></label>
+              <select class="kf-sel"><option value="">Seçiniz</option><option>Kısırlaştırılmış</option><option>Kısırlaştırılmamış</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Mikroçip / Küpe No</label><input class="kf-in" type="text" placeholder="15 haneli mikroçip numarası"></div>
+            <div class="kf-group"><label class="kf-lbl">Pasaport / Belge No</label><input class="kf-in" type="text" placeholder="Hayvan pasaport numarası"></div>
+          </div>
+        </div>
+
+        <!-- BÖLÜM 3: Sağlık Bilgileri -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-heart-rate-monitor"></i> 3. Sağlık & Aşı Bilgileri</span></div>
+          <div class="kf-grid">
+            <div class="kf-group"><label class="kf-lbl">Genel Sağlık Durumu <span class="kf-req">*</span></label>
+              <select class="kf-sel"><option value="">Seçiniz</option><option>Sağlıklı</option><option>Kronik hastalık var</option><option>Tedavi görüyor</option><option>Muayene gerekiyor</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Veteriner Hekim</label><input class="kf-in" type="text" placeholder="Dr. Adı Soyadı / Klinik adı"></div>
+            <div class="kf-group"><label class="kf-lbl">Veteriner Telefonu</label><input class="kf-in" type="tel" placeholder="0312 XXX XX XX"></div>
+            <div class="kf-group"><label class="kf-lbl">Son Veteriner Kontrolü</label><input class="kf-in" type="date"></div>
+          </div>
+
+          <div class="kf-sub-title"><i class="ti ti-vaccine"></i> Aşı Durumu <span class="kf-req">*</span></div>
+          <div class="kf-checkbox-grid">
+            <label class="kf-check"><input type="checkbox" checked><span>Kuduz aşısı</span><input class="kf-in-sm" type="date" title="Son aşı tarihi"></label>
+            <label class="kf-check"><input type="checkbox" checked><span>Panleukopeni (FVRCP)</span><input class="kf-in-sm" type="date" title="Son aşı tarihi"></label>
+            <label class="kf-check"><input type="checkbox"><span>Feline Lösemi (FeLV)</span><input class="kf-in-sm" type="date" title="Son aşı tarihi"></label>
+            <label class="kf-check"><input type="checkbox" checked><span>Herpesvirus / Calicivirus</span><input class="kf-in-sm" type="date" title="Son aşı tarihi"></label>
+            <label class="kf-check"><input type="checkbox"><span>Chlamydophila</span><input class="kf-in-sm" type="date" title="Son aşı tarihi"></label>
+            <label class="kf-check"><input type="checkbox" checked><span>İç parazit tedavisi</span><input class="kf-in-sm" type="date" title="Son uygulama tarihi"></label>
+            <label class="kf-check"><input type="checkbox" checked><span>Dış parazit tedavisi</span><input class="kf-in-sm" type="date" title="Son uygulama tarihi"></label>
+            <label class="kf-check"><input type="checkbox"><span>Diğer</span><input class="kf-in" type="text" placeholder="Aşı/tedavi adı" style="margin-top:4px;width:100%"></label>
+          </div>
+
+          <div class="kf-sub-title" style="margin-top:16px"><i class="ti ti-alert-triangle"></i> Bilinen Hastalık / Alerji / Kronik Durum</div>
+          <textarea class="kf-ta" rows="3" placeholder="Diyabet, kalp hastalığı, besin alerjisi, dermatit, vs. varsa açıklayınız"></textarea>
+        </div>
+
+        <!-- BÖLÜM 4: İlaç Takibi -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-pill"></i> 4. İlaç / Tedavi Takibi</span><button class="admin-btn" onclick="addDrug()">+ İlaç Ekle</button></div>
+          <div id="drug-list">
+            <div class="drug-row kf-grid" data-idx="0">
+              <div class="kf-group"><label class="kf-lbl">İlaç Adı <span class="kf-req">*</span></label><input class="kf-in" type="text" placeholder="Atenolol 25mg"></div>
+              <div class="kf-group"><label class="kf-lbl">Doz</label><input class="kf-in" type="text" placeholder="½ tablet"></div>
+              <div class="kf-group"><label class="kf-lbl">Uygulama yolu</label>
+                <select class="kf-sel"><option>Oral (ağızdan)</option><option>Damlalık</option><option>Enjeksiyon</option><option>Topikal (deri)</option><option>Göz damlası</option><option>Kulak damlası</option></select>
+              </div>
+              <div class="kf-group"><label class="kf-lbl">Sıklık</label>
+                <select class="kf-sel"><option>Günde 1 kez</option><option>Günde 2 kez</option><option>Günde 3 kez</option><option>Gün aşırı</option><option>Haftada 1 kez</option><option>İhtiyaç halinde</option></select>
+              </div>
+              <div class="kf-group"><label class="kf-lbl">Saatler</label><input class="kf-in" type="text" placeholder="08:00, 20:00"></div>
+              <div class="kf-group"><label class="kf-lbl">Mama ile mi?</label>
+                <select class="kf-sel"><option>Mama ile</option><option>Aç karnına</option><option>Fark etmez</option></select>
+              </div>
+              <div class="kf-group"><label class="kf-lbl">Başlangıç</label><input class="kf-in" type="date"></div>
+              <div class="kf-group"><label class="kf-lbl">Bitiş</label><input class="kf-in" type="date"></div>
+              <div class="kf-group kf-full"><label class="kf-lbl">Özel not</label><input class="kf-in" type="text" placeholder="İlaç verilmesi gereken durum, yan etki ihtimali..."></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BÖLÜM 5: Beslenme -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-bowl"></i> 5. Beslenme Bilgileri</span></div>
+          <div class="kf-grid">
+            <div class="kf-group"><label class="kf-lbl">Mama Türü <span class="kf-req">*</span></label>
+              <select class="kf-sel" id="food-type" onchange="toggleFoodOther()"><option>Kuru mama</option><option>Yaş mama</option><option>Karma (kuru + yaş)</option><option>Ev yemeği</option><option>Özel diyet</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Mama Markası / Adı</label><input class="kf-in" type="text" placeholder="Royal Canin Indoor, Hill's, vb."></div>
+            <div class="kf-group"><label class="kf-lbl">Günlük Porsiyon</label><input class="kf-in" type="text" placeholder="50g sabah, 50g akşam"></div>
+            <div class="kf-group"><label class="kf-lbl">Özel Mama Gelecek mi?</label>
+              <select class="kf-sel"><option>Hayır, otelin maması</option><option>Evet, sahip getirecek</option></select>
+            </div>
+            <div class="kf-group kf-full"><label class="kf-lbl">Besin Kısıtlamaları / Alerjiler</label><input class="kf-in" type="text" placeholder="Ton balığı yok, tahılsız mama, tahıl bazlı mama yok..."></div>
+          </div>
+        </div>
+
+        <!-- BÖLÜM 6: Konaklama & Oda -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-home"></i> 6. Konaklama Bilgileri</span></div>
+          <div class="kf-grid">
+            <div class="kf-group"><label class="kf-lbl">Oda <span class="kf-req">*</span></label>
+              <select class="kf-sel" id="room-sel">
+                <option value="">Oda seçiniz</option>
+                <optgroup label="— Standart Odalar —">
+                  <option>Standart 1 (Boş)</option>
+                  <option>Standart 2 (Boş)</option>
+                  <option disabled>Standart 3 (Dolu)</option>
+                </optgroup>
+                <optgroup label="— Premium Odalar —">
+                  <option disabled>Premium 1 (Dolu)</option>
+                  <option>Premium 2 (Boş)</option>
+                  <option disabled>Premium 3 (Dolu)</option>
+                </optgroup>
+                <optgroup label="— Çoklu Kedi Odaları —">
+                  <option disabled>Çoklu 1 (Dolu)</option>
+                  <option>Çoklu 2 (Boş)</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Paket <span class="kf-req">*</span></label>
+              <select class="kf-sel"><option>Standart — ₺350/gece</option><option>Premium — ₺550/gece</option><option>Çoklu Kedi — ₺480/gece</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Giriş Tarihi <span class="kf-req">*</span></label><input class="kf-in" type="date" id="checkin-date"></div>
+            <div class="kf-group"><label class="kf-lbl">Giriş Saati <span class="kf-req">*</span></label><input class="kf-in" type="time" value="10:00"></div>
+            <div class="kf-group"><label class="kf-lbl">Çıkış Tarihi <span class="kf-req">*</span></label><input class="kf-in" type="date" id="checkout-date"></div>
+            <div class="kf-group"><label class="kf-lbl">Çıkış Saati <span class="kf-req">*</span></label><input class="kf-in" type="time" value="12:00"></div>
+            <div class="kf-group"><label class="kf-lbl">Tahmini Geceleme</label><div class="kf-in" id="nights-calc" style="background:rgba(135,206,253,0.1);color:var(--accent-d);font-weight:700">— gece</div></div>
+            <div class="kf-group"><label class="kf-lbl">Tahmini Ücret</label><div class="kf-in" id="price-calc" style="background:rgba(135,206,253,0.1);color:var(--accent-d);font-weight:700">— ₺</div></div>
+          </div>
+        </div>
+
+        <!-- BÖLÜM 7: Davranış -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-mood-smile"></i> 7. Davranış & Özel Bakım</span></div>
+          <div class="kf-grid">
+            <div class="kf-group"><label class="kf-lbl">Genel Karakter</label>
+              <select class="kf-sel"><option>Sakin / uysal</option><option>Oyuncu / enerjik</option><option>Çekingen / ürkek</option><option>Saldırgan eğilim var</option><option>Değişken / duruma göre</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Yabancıya tepkisi</label>
+              <select class="kf-sel"><option>Dostane</option><option>Kaçar / saklanır</option><option>Tıslar / diş gösterir</option><option>Isırabilir</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Diğer hayvanlarla</label>
+              <select class="kf-sel"><option>Uyumlu</option><option>Sorunlu olabilir</option><option>Kesinlikle ayrı tutulmalı</option><option>Bilinmiyor</option></select>
+            </div>
+            <div class="kf-group"><label class="kf-lbl">Favori oyuncak / ilgi alanı</label><input class="kf-in" type="text" placeholder="Çubuk oyuncak, lazervari ışık, tünel..."></div>
+            <div class="kf-group kf-full"><label class="kf-lbl">Özel dikkat gerektiren durumlar</label>
+              <textarea class="kf-ta" rows="2" placeholder="Stres faktörleri, kaçma eğilimi, kucağa alınmak istememe, dişe dokunulmaması..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- BÖLÜM 8: İzinler -->
+        <div class="section-box">
+          <div class="section-box-title"><span><i class="ti ti-file-description"></i> 8. Yasal İzinler & Onaylar</span></div>
+          <div class="kf-consent-list">
+            <label class="kf-consent"><input type="checkbox" id="c1"><span>Hayvanın 5199 sayılı Hayvanları Koruma Kanunu ve ilgili yönetmelikler çerçevesinde bakım almasına onay veriyorum.</span></label>
+            <label class="kf-consent"><input type="checkbox" id="c2"><span>Acil veteriner müdahalesi gerektiğinde otelin yetkili veteriner hekime yönlendirme yapmasına ve iletişim kurmasına izin veriyorum.</span></label>
+            <label class="kf-consent"><input type="checkbox" id="c3"><span>Kamera görüntülerinin yalnızca güvenlik ve bakım takibi amacıyla kullanılacağını ve üçüncü şahıslarla paylaşılmayacağını kabul ediyorum.</span></label>
+            <label class="kf-consent"><input type="checkbox" id="c4"><span>Konaklama süresi boyunca hayvanın sağlık durumunda oluşabilecek değişikliklerin otele bildirilmesinin sorumluluğunun tarafıma ait olduğunu kabul ediyorum.</span></label>
+            <label class="kf-consent"><input type="checkbox" id="c5"><span>KVKK kapsamında kişisel verilerimin ve hayvan bilgilerimin yalnızca hizmet amacıyla işleneceğini okudum ve onaylıyorum.</span></label>
+          </div>
+          <div class="kf-grid" style="margin-top:16px">
+            <div class="kf-group"><label class="kf-lbl">Sahip İmzası</label><div class="kf-sign-box" id="sign-area" onclick="this.classList.add('signed')">✍️ İmzalamak için tıklayın</div></div>
+            <div class="kf-group"><label class="kf-lbl">Kayıt Tarihi & Saati</label><div class="kf-in" id="reg-datetime" style="background:rgba(135,206,253,0.1);color:var(--accent-d);font-weight:600">—</div></div>
+            <div class="kf-group"><label class="kf-lbl">Kaydı Yapan Personel</label>
+              <select class="kf-sel"><option>Elif H.</option><option>Can Y.</option><option>Admin</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:4px;margin-bottom:40px">
+          <button class="f-submit" style="max-width:280px" onclick="saveKayit()">💾 Kaydı Tamamla</button>
+          <button class="admin-btn" style="padding:14px 24px;font-size:14px" onclick="printKayit()">🖨️ Yazdır / PDF</button>
         </div>
       </div>
 
@@ -855,7 +1077,82 @@ function toast(msg){
   setTimeout(()=>{t.style.display='none';},3500);
 }
 
-// ── Live counter ──
+// ── Kayıt Formu ──
+let drugIdx = 1;
+function addDrug(){
+  const list = document.getElementById('drug-list');
+  const div = document.createElement('div');
+  div.className = 'drug-row kf-grid';
+  div.dataset.idx = drugIdx++;
+  div.innerHTML = `
+    <div class="kf-group"><label class="kf-lbl">İlaç Adı <span class="kf-req">*</span></label><input class="kf-in" type="text" placeholder="İlaç adı ve dozu"></div>
+    <div class="kf-group"><label class="kf-lbl">Doz</label><input class="kf-in" type="text" placeholder="½ tablet"></div>
+    <div class="kf-group"><label class="kf-lbl">Uygulama yolu</label><select class="kf-sel"><option>Oral (ağızdan)</option><option>Damlalık</option><option>Enjeksiyon</option><option>Topikal (deri)</option><option>Göz damlası</option><option>Kulak damlası</option></select></div>
+    <div class="kf-group"><label class="kf-lbl">Sıklık</label><select class="kf-sel"><option>Günde 1 kez</option><option>Günde 2 kez</option><option>Günde 3 kez</option><option>Gün aşırı</option><option>Haftada 1 kez</option><option>İhtiyaç halinde</option></select></div>
+    <div class="kf-group"><label class="kf-lbl">Saatler</label><input class="kf-in" type="text" placeholder="08:00, 20:00"></div>
+    <div class="kf-group"><label class="kf-lbl">Mama ile mi?</label><select class="kf-sel"><option>Mama ile</option><option>Aç karnına</option><option>Fark etmez</option></select></div>
+    <div class="kf-group"><label class="kf-lbl">Başlangıç</label><input class="kf-in" type="date"></div>
+    <div class="kf-group"><label class="kf-lbl">Bitiş</label><input class="kf-in" type="date"></div>
+    <div class="kf-group kf-full" style="flex-direction:row;align-items:center;gap:10px"><div style="flex:1"><label class="kf-lbl">Özel not</label><input class="kf-in" type="text" placeholder="Özel not..."></div><button class="admin-btn danger" style="margin-top:20px;padding:8px 14px" onclick="this.closest('.drug-row').remove()">🗑 Kaldır</button></div>
+  `;
+  list.appendChild(div);
+}
+
+// Geceleme & ücret hesapla
+function calcNights(){
+  const ci = document.getElementById('checkin-date');
+  const co = document.getElementById('checkout-date');
+  const nc = document.getElementById('nights-calc');
+  const pc = document.getElementById('price-calc');
+  const pkg = document.querySelector('#ap-kayit select.kf-sel:nth-of-type(2)');
+  if(!ci||!co||!ci.value||!co.value) return;
+  const d1 = new Date(ci.value), d2 = new Date(co.value);
+  const nights = Math.round((d2-d1)/(1000*60*60*24));
+  if(nights<=0){nc.textContent='Geçersiz tarih';pc.textContent='—';return;}
+  nc.textContent = nights + ' gece';
+  const rates = {'Standart':350,'Premium':550,'Çoklu':480};
+  const selText = document.querySelectorAll('#ap-kayit .kf-sel')[1];
+  let rate = 350;
+  if(selText){
+    const t = selText.value;
+    if(t.includes('Premium')) rate=550;
+    else if(t.includes('Çoklu')) rate=480;
+  }
+  pc.textContent = (nights*rate).toLocaleString('tr-TR') + ' ₺';
+}
+
+document.addEventListener('change', e=>{
+  if(e.target.id==='checkin-date'||e.target.id==='checkout-date') calcNights();
+});
+
+// Kayıt datetime stamp
+function updateRegDatetime(){
+  const el = document.getElementById('reg-datetime');
+  if(el){
+    const now = new Date();
+    el.textContent = now.toLocaleDateString('tr-TR')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  }
+}
+
+function saveKayit(){
+  const consents = ['c1','c2','c3','c4','c5'];
+  const unchecked = consents.filter(id=>!document.getElementById(id)?.checked);
+  if(unchecked.length){
+    toast('⚠️ Lütfen tüm yasal onayları işaretleyin.');
+    return;
+  }
+  updateRegDatetime();
+  toast('✅ Kayıt tamamlandı! Kedi misafir sisteme eklendi.');
+}
+
+function printKayit(){
+  toast('🖨️ Yazdırma diyaloğu açılıyor...');
+  setTimeout(()=>window.print(), 600);
+}
+
+// Kayıt formuna geçince timestamp güncelle
+const origShowAP = showAP;
+</script>
 let logs=34;
 setInterval(()=>{
   if(Math.random()>0.78){
