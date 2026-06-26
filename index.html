@@ -1231,7 +1231,8 @@ function goSection(id){
 
 // ── User panel ──
 function showPP(p){
-  document.querySelectorAll('.pp').forEach(el=>el.classList.remove('active'));
+  const container = document.querySelector('#page-panel .panel-content');
+  container.querySelectorAll('.pp').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('#page-panel .sb-nav a').forEach(el=>el.classList.remove('active'));
   document.getElementById('pp-'+p).classList.add('active');
   const nav=document.getElementById('pn-'+p); if(nav) nav.classList.add('active');
@@ -1239,7 +1240,8 @@ function showPP(p){
 
 // ── Admin panel ──
 function showAP(p){
-  document.querySelectorAll('.pp').forEach(el=>el.classList.remove('active'));
+  const container = document.querySelector('#page-admin .panel-content');
+  container.querySelectorAll('.pp').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('#page-admin .sb-nav a').forEach(el=>{el.classList.remove('active');el.classList.remove('admin-active');});
   document.getElementById('ap-'+p).classList.add('active');
   const nav=document.getElementById('an-'+p);
