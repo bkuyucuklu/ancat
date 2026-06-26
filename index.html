@@ -19,6 +19,13 @@
 
 html{background:var(--night);color:var(--cream);font-family:var(--font);overflow-x:hidden;scroll-behavior:smooth;}
 
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:rgba(12,15,29,0.8);}
+::-webkit-scrollbar-thumb{background:rgba(59,225,255,0.25);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(59,225,255,0.45);}
+*{scrollbar-width:thin;scrollbar-color:rgba(59,225,255,0.25) rgba(12,15,29,0.8);}
+
 /* ── GLOBAL CAT BG — tüm sayfa boyunca ── */
 #global-cat-bg{
   position:fixed;
