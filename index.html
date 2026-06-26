@@ -1220,6 +1220,9 @@ function goPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   window.scrollTo(0,0);
+  // Sayfa açılırken ilgili panelin varsayılan sekmesini sıfırla
+  if(p==='panel') showPP('dash');
+  if(p==='admin') showAP('adash');
 }
 function goSection(id){
   const onLanding = document.getElementById('page-landing').classList.contains('active');
