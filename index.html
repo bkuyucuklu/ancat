@@ -288,7 +288,44 @@ option{background:#D6EEFF;color:var(--ink);}
 
 #toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:rgba(255,255,255,0.95);border:1px solid var(--border-w);border-radius:14px;padding:14px 20px;font-size:14px;font-weight:700;color:var(--ink);display:none;align-items:center;gap:8px;animation:tin 0.3s ease;backdrop-filter:blur(12px);box-shadow:0 4px 20px rgba(135,206,253,0.3);}
 @keyframes tin{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
-/* ── KAYIT FORMU ── */
+/* ── BAKIM GİRİŞİ — çoklu oda ── */
+.room-care-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.room-care-card{
+  background:rgba(255,255,255,0.6);border:2px solid var(--border-w);border-radius:14px;
+  padding:14px;display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:all 0.18s;user-select:none;
+}
+.room-care-card:hover{background:rgba(255,255,255,0.85);border-color:var(--border);}
+.room-care-card.selected{background:rgba(135,206,253,0.2);border-color:var(--brand);box-shadow:0 0 0 3px rgba(135,206,253,0.25);}
+.rcc-check{
+  width:22px;height:22px;border-radius:6px;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:#fff;color:transparent;transition:all 0.15s;font-size:13px;
+}
+.room-care-card.selected .rcc-check{background:var(--brand);border-color:var(--brand-d);color:var(--ink);}
+.rcc-emoji{font-size:26px;flex-shrink:0;}
+.rcc-info{flex:1;min-width:0;}
+.rcc-room{font-size:13px;font-weight:800;color:var(--ink);}
+.rcc-cat{font-size:12px;font-weight:500;color:var(--ink-soft);margin-top:1px;}
+.rcc-last{font-size:11px;font-weight:600;color:var(--accent-d);margin-top:3px;}
+.care-op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
+.care-op-btn{
+  background:rgba(255,255,255,0.65);border:1.5px solid var(--border-w);border-radius:12px;
+  padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;transition:all 0.18s;font-family:var(--font);
+}
+.care-op-btn:hover{background:rgba(255,255,255,0.9);border-color:var(--border);}
+.care-op-btn.selected{background:rgba(135,206,253,0.2);border-color:var(--brand);box-shadow:0 0 0 3px rgba(135,206,253,0.2);}
+.cop-icon{font-size:24px;}
+.cop-label{font-size:12px;font-weight:700;color:var(--ink);text-align:center;}
+.care-preview-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 0;border-bottom:1px solid var(--border-w);font-size:13px;
+}
+.care-preview-item:last-child{border-bottom:none;}
+.care-preview-item .pi-room{font-weight:700;color:var(--ink);min-width:90px;}
+.care-preview-item .pi-op{color:var(--ink-soft);}
+</style>
 .kf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .kf-group{display:flex;flex-direction:column;}
 .kf-group.kf-full{grid-column:1/-1;}
@@ -645,8 +682,8 @@ option{background:#D6EEFF;color:var(--ink);}
           <div class="section-box-title"><span><i class="ti ti-paw"></i> 2. Evcil Hayvan Bilgileri</span></div>
           <div class="kf-grid">
             <div class="kf-group"><label class="kf-lbl">Hayvanın Adı <span class="kf-req">*</span></label><input class="kf-in" type="text" placeholder="Luna"></div>
-            <div class="kf-group"><label class="kf-lbl">Tür <span class="kf-req">*</span></label>
-              <select class="kf-sel"><option value="">Seçiniz</option><option selected>Kedi</option><option>Köpek</option><option>Diğer</option></select>
+            <div class="kf-group"><label class="kf-lbl">Tür</label>
+              <div class="kf-in" style="background:rgba(135,206,253,0.1);color:var(--accent-d);font-weight:700">🐱 Kedi</div>
             </div>
             <div class="kf-group"><label class="kf-lbl">Irk / Cins</label><input class="kf-in" type="text" placeholder="British Shorthair, Tekir, vb."></div>
             <div class="kf-group"><label class="kf-lbl">Cinsiyet <span class="kf-req">*</span></label>
@@ -864,37 +901,139 @@ option{background:#D6EEFF;color:var(--ink);}
       <!-- BAKIM GİRİŞİ -->
       <div id="ap-care" class="pp">
         <div class="p-greeting">Bakım Girişi</div>
-        <div class="p-sub">Personel bakım kaydı ekle</div>
+        <div class="p-sub">Odaları seç → işlemi seç → tek tıkla tüm seçili odalara kaydet</div>
+
+        <!-- ODA SEÇİMİ -->
         <div class="section-box">
-          <div class="section-box-title"><span><i class="ti ti-paw"></i> Kedi seç</span></div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px">
-            <button class="care-btn active-care" onclick="selectCat(this)">🐱 Luna</button>
-            <button class="care-btn" onclick="selectCat(this)">😺 Mochi</button>
-            <button class="care-btn" onclick="selectCat(this)">🐈 Oscar</button>
-            <button class="care-btn" onclick="selectCat(this)">🐈‍⬛ Nori</button>
+          <div class="section-box-title">
+            <span><i class="ti ti-home"></i> Oda Seçimi</span>
+            <div style="display:flex;gap:8px">
+              <button class="admin-btn" onclick="selectAllRooms()">Tümünü Seç</button>
+              <button class="admin-btn" onclick="clearAllRooms()">Temizle</button>
+            </div>
+          </div>
+          <div class="room-care-grid" id="room-care-grid">
+            <div class="room-care-card" data-room="Standart 1" data-cat="Mochi 😺" onclick="toggleRoom(this)">
+              <div class="rcc-check"><i class="ti ti-check"></i></div>
+              <div class="rcc-emoji">😺</div>
+              <div class="rcc-info">
+                <div class="rcc-room">Standart 1</div>
+                <div class="rcc-cat">Mochi</div>
+                <div class="rcc-last" id="last-Standart1">Son: 17:45</div>
+              </div>
+              <span class="badge badge-green" style="margin-left:auto;align-self:center">Aktif</span>
+            </div>
+            <div class="room-care-card" data-room="Standart 2" data-cat="Oscar 🐈" onclick="toggleRoom(this)">
+              <div class="rcc-check"><i class="ti ti-check"></i></div>
+              <div class="rcc-emoji">🐈</div>
+              <div class="rcc-info">
+                <div class="rcc-room">Standart 2</div>
+                <div class="rcc-cat">Oscar · 💊 İlaç var</div>
+                <div class="rcc-last" id="last-Standart2">Son: 17:30</div>
+              </div>
+              <span class="badge badge-green" style="margin-left:auto;align-self:center">Aktif</span>
+            </div>
+            <div class="room-care-card" data-room="Premium 3" data-cat="Luna 🐱" onclick="toggleRoom(this)">
+              <div class="rcc-check"><i class="ti ti-check"></i></div>
+              <div class="rcc-emoji">🐱</div>
+              <div class="rcc-info">
+                <div class="rcc-room">Premium 3</div>
+                <div class="rcc-cat">Luna</div>
+                <div class="rcc-last" id="last-Premium3">Son: 18:00</div>
+              </div>
+              <span class="badge badge-green" style="margin-left:auto;align-self:center">Aktif</span>
+            </div>
+            <div class="room-care-card" data-room="Çoklu 1" data-cat="Nori & Mochi 🐈‍⬛" onclick="toggleRoom(this)">
+              <div class="rcc-check"><i class="ti ti-check"></i></div>
+              <div class="rcc-emoji">🐈‍⬛</div>
+              <div class="rcc-info">
+                <div class="rcc-room">Çoklu 1</div>
+                <div class="rcc-cat">Nori & Mochi</div>
+                <div class="rcc-last" id="last-Coklu1">Son: 18:00</div>
+              </div>
+              <span class="badge badge-orange" style="margin-left:auto;align-self:center">Çıkış bugün</span>
+            </div>
+          </div>
+          <div id="room-selection-hint" style="font-size:13px;color:var(--ink-soft);margin-top:10px;font-weight:600">
+            ← Kart(lar)a tıklayarak oda seç
           </div>
         </div>
+
+        <!-- BAKIM İŞLEMİ -->
         <div class="section-box">
-          <div class="section-box-title"><span><i class="ti ti-clipboard-list"></i> Bakım işlemi ekle</span></div>
-          <div class="care-input-row">
-            <button class="care-btn" onclick="logCare(this,'🍽️ Mama verildi')">🍽️ Mama verildi</button>
-            <button class="care-btn" onclick="logCare(this,'💧 Su yenilendi')">💧 Su yenilendi</button>
-            <button class="care-btn" onclick="logCare(this,'🧹 Kum temizlendi')">🧹 Kum temizlendi</button>
-            <button class="care-btn" onclick="logCare(this,'🎮 Oyun zamanı')">🎮 Oyun zamanı</button>
-            <button class="care-btn" onclick="logCare(this,'💊 İlaç verildi')">💊 İlaç verildi</button>
-            <button class="care-btn" onclick="logCare(this,'📸 Fotoğraf yüklendi')">📸 Fotoğraf yüklendi</button>
+          <div class="section-box-title"><span><i class="ti ti-clipboard-list"></i> Bakım İşlemi</span></div>
+          <div class="care-op-grid">
+            <button class="care-op-btn" data-op="🍽️" data-label="Mama verildi" onclick="toggleOp(this)">
+              <span class="cop-icon">🍽️</span><span class="cop-label">Mama verildi</span>
+            </button>
+            <button class="care-op-btn" data-op="💧" data-label="Su yenilendi" onclick="toggleOp(this)">
+              <span class="cop-icon">💧</span><span class="cop-label">Su yenilendi</span>
+            </button>
+            <button class="care-op-btn" data-op="🧹" data-label="Kum temizlendi" onclick="toggleOp(this)">
+              <span class="cop-icon">🧹</span><span class="cop-label">Kum temizlendi</span>
+            </button>
+            <button class="care-op-btn" data-op="🎮" data-label="Oyun zamanı" onclick="toggleOp(this)">
+              <span class="cop-icon">🎮</span><span class="cop-label">Oyun zamanı</span>
+            </button>
+            <button class="care-op-btn" data-op="💊" data-label="İlaç verildi" onclick="toggleOp(this)">
+              <span class="cop-icon">💊</span><span class="cop-label">İlaç verildi</span>
+            </button>
+            <button class="care-op-btn" data-op="🧼" data-label="Oda temizlendi" onclick="toggleOp(this)">
+              <span class="cop-icon">🧼</span><span class="cop-label">Oda temizlendi</span>
+            </button>
+            <button class="care-op-btn" data-op="📸" data-label="Fotoğraf çekildi" onclick="toggleOp(this)">
+              <span class="cop-icon">📸</span><span class="cop-label">Fotoğraf çekildi</span>
+            </button>
+            <button class="care-op-btn" data-op="🩺" data-label="Sağlık kontrolü" onclick="toggleOp(this)">
+              <span class="cop-icon">🩺</span><span class="cop-label">Sağlık kontrolü</span>
+            </button>
           </div>
-          <div style="display:flex;gap:10px;margin-top:8px">
-            <input class="f-in" id="care-note" type="text" placeholder="Not ekle... (isteğe bağlı)" style="flex:1">
-            <button class="admin-btn" style="padding:10px 20px;font-size:13px" onclick="saveCare()">Kaydet</button>
+
+          <div style="display:flex;gap:10px;margin-top:14px;align-items:flex-end;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px">
+              <label style="font-size:12px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:6px">Not (isteğe bağlı)</label>
+              <input class="f-in" id="care-note-bulk" type="text" placeholder="Ek not...">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:6px">Personel</label>
+              <select class="f-in" id="care-staff" style="width:130px">
+                <option>Elif H.</option>
+                <option>Can Y.</option>
+                <option>Admin</option>
+              </select>
+            </div>
+            <button class="f-submit" style="width:auto;padding:11px 28px;font-size:14px;flex-shrink:0" onclick="bulkSaveCare()">
+              ✅ Kaydet
+            </button>
           </div>
         </div>
+
+        <!-- ÖZET ÖNZÖLEME -->
+        <div class="section-box" id="care-preview-box" style="display:none">
+          <div class="section-box-title"><span><i class="ti ti-eye"></i> Kaydedilecek işlemler</span></div>
+          <div id="care-preview-content"></div>
+        </div>
+
+        <!-- BUGÜNKÜ KAYITLAR -->
         <div class="section-box">
-          <div class="section-box-title"><span><i class="ti ti-clock"></i> Bugünkü kayıtlar — Luna</span></div>
-          <div class="timeline" id="care-log">
-            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">09:15 · Elif H.</div><div class="tl-a">Mama verildi</div><div class="tl-n">Kuru mama, normal porsiyon</div></div></div>
-            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">💧</div><div class="tl-body"><div class="tl-t">09:30 · Elif H.</div><div class="tl-a">Su yenilendi</div><div class="tl-n">—</div></div></div>
-            <div class="tl-row"><div class="tl-spine"><div class="tl-dot"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">18:00 · Can Y.</div><div class="tl-a">Akşam maması verildi</div><div class="tl-n">İştahı çok iyiydi</div></div></div>
+          <div class="section-box-title">
+            <span><i class="ti ti-clock"></i> Bugünkü kayıtlar</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap" id="log-filter-btns">
+              <button class="admin-btn" style="font-size:11px" onclick="filterLog('all')">Tümü</button>
+              <button class="admin-btn" style="font-size:11px" onclick="filterLog('Standart 1')">St.1</button>
+              <button class="admin-btn" style="font-size:11px" onclick="filterLog('Standart 2')">St.2</button>
+              <button class="admin-btn" style="font-size:11px" onclick="filterLog('Premium 3')">Pr.3</button>
+              <button class="admin-btn" style="font-size:11px" onclick="filterLog('Çoklu 1')">Çk.1</button>
+            </div>
+          </div>
+          <div class="timeline" id="care-log-bulk">
+            <div class="tl-row" data-room="Standart 1"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">09:15 · Elif H. · Standart 1</div><div class="tl-a">Mama verildi</div><div class="tl-n">Mochi — Kuru mama</div></div></div>
+            <div class="tl-row" data-room="Standart 2"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">09:15 · Elif H. · Standart 2</div><div class="tl-a">Mama verildi</div><div class="tl-n">Oscar — Kuru mama</div></div></div>
+            <div class="tl-row" data-room="Premium 3"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">09:15 · Elif H. · Premium 3</div><div class="tl-a">Mama verildi</div><div class="tl-n">Luna — Kuru mama</div></div></div>
+            <div class="tl-row" data-room="Standart 1"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">💧</div><div class="tl-body"><div class="tl-t">09:30 · Elif H. · Standart 1</div><div class="tl-a">Su yenilendi</div><div class="tl-n">Mochi</div></div></div>
+            <div class="tl-row" data-room="Standart 2"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">💧</div><div class="tl-body"><div class="tl-t">09:30 · Elif H. · Standart 2</div><div class="tl-a">Su yenilendi</div><div class="tl-n">Oscar</div></div></div>
+            <div class="tl-row" data-room="Premium 3"><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">💧</div><div class="tl-body"><div class="tl-t">09:30 · Elif H. · Premium 3</div><div class="tl-a">Su yenilendi</div><div class="tl-n">Luna</div></div></div>
+            <div class="tl-row" data-room="Premium 3"><div class="tl-spine"><div class="tl-dot"></div></div><div class="tl-em">🍽️</div><div class="tl-body"><div class="tl-t">18:00 · Can Y. · Premium 3</div><div class="tl-a">Mama verildi</div><div class="tl-n">Luna — Akşam maması, iştahı iyiydi</div></div></div>
           </div>
         </div>
       </div>
@@ -1018,31 +1157,93 @@ function showAP(p){
   if(nav){nav.classList.add('active');nav.classList.add('admin-active');}
 }
 
-let selectedCat = 'Luna';
-function selectCat(btn){
-  document.querySelectorAll('.care-btn').forEach(b=>b.classList.remove('active-care'));
-  btn.classList.add('active-care');
-  selectedCat = btn.textContent.replace(/[🐱😺🐈🐈‍⬛]/gu,'').trim();
+// ── Bakım Girişi — Çoklu Oda ──
+function toggleRoom(card){
+  card.classList.toggle('selected');
+  updateCarePreview();
 }
-function logCare(btn, label){
-  btn.classList.toggle('active-care');
+function selectAllRooms(){
+  document.querySelectorAll('.room-care-card').forEach(c=>c.classList.add('selected'));
+  updateCarePreview();
 }
-function saveCare(){
-  const note = document.getElementById('care-note').value || '—';
-  const active = [...document.querySelectorAll('#ap-care .care-input-row .active-care')];
-  if(!active.length){ toast('Lütfen bir işlem seçin.'); return; }
-  const log = document.getElementById('care-log');
-  const now = new Date();
-  const t = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  active.forEach(btn=>{
-    const row = document.createElement('div'); row.className='tl-row';
-    const em = btn.textContent.split(' ')[0];
-    row.innerHTML=`<div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">${em}</div><div class="tl-body"><div class="tl-t">${t} · Admin</div><div class="tl-a">${btn.textContent}</div><div class="tl-n">${note}</div></div>`;
-    log.appendChild(row);
-    btn.classList.remove('active-care');
+function clearAllRooms(){
+  document.querySelectorAll('.room-care-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.care-op-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('care-preview-box').style.display='none';
+}
+function toggleOp(btn){
+  btn.classList.toggle('selected');
+  updateCarePreview();
+}
+function updateCarePreview(){
+  const rooms=[...document.querySelectorAll('.room-care-card.selected')];
+  const ops=[...document.querySelectorAll('.care-op-btn.selected')];
+  const box=document.getElementById('care-preview-box');
+  const cont=document.getElementById('care-preview-content');
+  if(!rooms.length||!ops.length){box.style.display='none';return;}
+  box.style.display='block';
+  const now=new Date();
+  const t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  let html=`<div style="font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:8px">Saat ${t} — ${rooms.length} odaya ${ops.length} işlem → toplam ${rooms.length*ops.length} kayıt</div>`;
+  rooms.forEach(r=>{
+    const room=r.dataset.room, cat=r.dataset.cat;
+    ops.forEach(o=>{
+      html+=`<div class="care-preview-item"><span>${o.dataset.op}</span><span class="pi-room">${room}</span><span class="pi-op">${cat} — ${o.dataset.label}</span></div>`;
+    });
   });
-  document.getElementById('care-note').value='';
-  toast('✅ Bakım kaydı eklendi!');
+  cont.innerHTML=html;
+}
+
+function bulkSaveCare(){
+  const rooms=[...document.querySelectorAll('.room-care-card.selected')];
+  const ops=[...document.querySelectorAll('.care-op-btn.selected')];
+  if(!rooms.length){toast('⚠️ En az bir oda seçin.');return;}
+  if(!ops.length){toast('⚠️ En az bir işlem seçin.');return;}
+  const now=new Date();
+  const t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const note=document.getElementById('care-note-bulk').value.trim();
+  const staff=document.getElementById('care-staff').value;
+  const log=document.getElementById('care-log-bulk');
+  rooms.forEach(r=>{
+    const room=r.dataset.room;
+    const cat=r.dataset.cat.replace(/[\u{1F400}-\u{1F4FF}\u{1F600}-\u{1F64F}\u{1F900}-\u{1F9FF}\u2600-\u26FF\u2700-\u27BF]/gu,'').trim();
+    ops.forEach(o=>{
+      const row=document.createElement('div');
+      row.className='tl-row'; row.dataset.room=room;
+      row.innerHTML=`<div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">${o.dataset.op}</div><div class="tl-body"><div class="tl-t">${t} · ${staff} · ${room}</div><div class="tl-a">${o.dataset.label}</div><div class="tl-n">${cat}${note?' — '+note:''}</div></div>`;
+      log.appendChild(row);
+    });
+    // Kart üzerindeki "Son bakım" güncelle
+    const key=room.replace(/\s/g,'').replace('Çoklu','Coklu');
+    const lastEl=document.getElementById('last-'+key);
+    if(lastEl) lastEl.textContent='Son: '+t;
+  });
+  // Genel bakış aktivite akışı
+  const actTimeline=document.querySelector('#ap-adash .timeline');
+  if(actTimeline){
+    const roomNames=rooms.map(r=>r.dataset.room).join(', ');
+    const opNames=ops.map(o=>o.dataset.label).join(', ');
+    const nr=document.createElement('div'); nr.className='tl-row';
+    nr.innerHTML=`<div class="tl-spine"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-em">${ops[0].dataset.op}</div><div class="tl-body"><div class="tl-t">${t} · ${staff}</div><div class="tl-a">${opNames}</div><div class="tl-n">${roomNames} (${rooms.length} oda)</div></div>`;
+    actTimeline.insertBefore(nr,actTimeline.firstChild);
+  }
+  // Sayaç güncelle
+  const added=rooms.length*ops.length;
+  const cur=parseInt(document.getElementById('ll')?.textContent||'34');
+  const nv=cur+added;
+  ['ll','a-logs'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=nv;el.style.transform='scale(1.35)';setTimeout(()=>el.style.transform='',280);}});
+  toast(`✅ ${t} — ${rooms.length} odaya ${ops.length} işlem kaydedildi (${added} kayıt)`);
+  // Sıfırla
+  rooms.forEach(r=>r.classList.remove('selected'));
+  ops.forEach(o=>o.classList.remove('selected'));
+  document.getElementById('care-note-bulk').value='';
+  document.getElementById('care-preview-box').style.display='none';
+}
+
+function filterLog(filter){
+  document.querySelectorAll('#care-log-bulk .tl-row').forEach(r=>{
+    r.style.display=(filter==='all'||r.dataset.room===filter)?'flex':'none';
+  });
 }
 
 function sendMsg(){
